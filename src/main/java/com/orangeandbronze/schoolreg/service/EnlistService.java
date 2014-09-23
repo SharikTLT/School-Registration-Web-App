@@ -20,9 +20,9 @@ import com.orangeandbronze.schoolreg.domain.Term;
 
 public class EnlistService {
 
-	private StudentDao studentDao = new MockStudentDao();
+	private StudentDao studentDao = new MockStudentDao();	 // TODO When real Dao is implemented, replace this with real Dao
 	private SectionDao sectionDao = new SectionDao();
-	private EnrollmentDao enrollmentDao = new MockEnrollmentDao();
+	private EnrollmentDao enrollmentDao = new MockEnrollmentDao(); // TODO When real Dao is implemented, replace this with real Dao
 	
 	public Set<Section> getAllSections() {
 		return sectionDao.getAll();
