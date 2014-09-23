@@ -43,7 +43,7 @@ public class EnlistService {
 		// Fetch domain objects from DB
 		Student student = studentDao.getById(studentNumber);
 		Section[] sections = sectionNumbers != null ? new Section[sectionNumbers.length] : new Section[0];
-		for (int i = 0; i < sectionNumbers.length; i++) {
+		for (int i = 0; i < sections.length; i++) {
 			sections[i] = sectionDao.getById(sectionNumbers[i]);
 		}
 		Enrollment enrollment = enrollmentDao.getBy(student, Term.getCurrent());
