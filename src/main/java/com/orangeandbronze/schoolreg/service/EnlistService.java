@@ -42,7 +42,7 @@ public class EnlistService {
 	public EnlistmentResult enlistSections(Integer studentNumber, String[] sectionNumbers) {
 		// Fetch domain objects from DB
 		Student student = studentDao.getById(studentNumber);
-		Section[] sections = new Section[sectionNumbers.length];
+		Section[] sections = sectionNumbers != null ? new Section[sectionNumbers.length] : new Section[0];
 		for (int i = 0; i < sectionNumbers.length; i++) {
 			sections[i] = sectionDao.getById(sectionNumbers[i]);
 		}
