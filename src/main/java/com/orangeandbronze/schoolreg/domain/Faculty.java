@@ -16,6 +16,7 @@ public class Faculty extends Entity {
 		this.facultyNumber = facultyNumber;
 
 	}
+	
 
 	@Override
 	public int hashCode() {
@@ -47,7 +48,10 @@ public class Faculty extends Entity {
 	public String toString() {
 		return "Faculty [facultyNumber=" + facultyNumber + "]";
 	}
-	
-	
+
+
+	public Integer getFacultyNumber() {
+		return facultyNumber;
+	}
 
 }

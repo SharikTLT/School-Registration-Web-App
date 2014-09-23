@@ -1,5 +1,3 @@
-Hello, Karl!!
-
 School-Registration-Web-App
 ===========================
 
@@ -34,12 +32,5 @@ I created a very simple authentication component just to demonstrate Filters. Th
 If you would like to use Eclipse with this project, note that you will need to configure the Eclipse project to use Maven. Just right-click the project root and go to Configure --> Convert to Maven Project. After that, right-click the project root again and go to Maven --> Update Project. That should set up all your project dependencies.
 
 # To Do
- * DAO layer using JDBC
- * MySQL DDL
+ * DAO layer using JDBC * 
  * Error Pages
- * Move some JSPs to WEB-INF for better control
-
-# Analysis
-
-I ran the code through Spoiklin Soice to do a graphical representation of the dependencies. Pretty clean, don't you think? I plan to do some other static analysis later on, maybe using SonarQube.
-![](spoiklin.png)
