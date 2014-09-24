@@ -1,5 +1,8 @@
 package com.orangeandbronze.schoolreg.dao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -56,6 +59,14 @@ public class Dao {
 
 	void handleException(Entity entity, Exception e) {
 		throw new DataAccessException("Problem while accessing data for " + entity.getClass(), e);
+	}
+
+	protected String getSql(String sqlFile) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(sqlFile)))) {
+			return br.readLine();
+		} catch (IOException e) {
+			throw new DataAccessException("Problem while trying to read file from classpath.", e);
+		}
 	}
 
 }

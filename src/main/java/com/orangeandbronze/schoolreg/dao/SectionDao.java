@@ -14,14 +14,16 @@ import com.orangeandbronze.schoolreg.domain.Schedule;
 import com.orangeandbronze.schoolreg.domain.Section;
 import com.orangeandbronze.schoolreg.domain.Subject;
 
-// TODO Factor out duplicate code
 public class SectionDao extends Dao {
 
+	/**
+	 * Only retrieves one level of prerequisites. Does not recursively get
+	 * prerequisites of prerequisites... that's beyond my powers of SQL. Anyone,
+	 * none of the use cases require beyond first-level prerequisties.
+	 **/
 	public Section getById(String sectionNumber) {
 
-		String sql = "SELECT sections.*, subjects.subject_id, faculty.faculty_number, subject_prerequisites.fk_prerequisite FROM sections "
-				+ "INNER JOIN subjects ON sections.fk_subject = subjects.pk " + "INNER JOIN faculty ON sections.fk_faculty = faculty.pk "
-				+ "LEFT JOIN subject_prerequisites ON subjects.pk = subject_prerequisites.fk_subject " + "WHERE section_number = ? ";
+		String sql = getSql("SectionDao.getById.sql");
 
 		Section section = null;
 
@@ -56,20 +58,11 @@ public class SectionDao extends Dao {
 
 				}
 
-				// TODO Try to handle with just one SQL call instead of multiple
-				// TODO handle deep recursive prereqs
-
 				// get prereqs
 				int fkPrerequisite = rs.getInt("fk_prerequisite");
-				PreparedStatement prereqPstmt = conn.prepareStatement("SELECT subject_id FROM subjects WHERE pk = ?");
-				prereqPstmt.setInt(1, fkPrerequisite);
-				ResultSet rsPrereq = prereqPstmt.executeQuery();
-
-				while (rsPrereq.next()) {
-					Subject prereq = new Subject(rsPrereq.getString("subject_id"));
-					setPrimaryKey(prereq, fkPrerequisite);
-					prereqs.add(prereq);
-				}
+				Subject prereq = new Subject(rs.getString("prerequisites"));
+				setPrimaryKey(prereq, fkPrerequisite);
+				prereqs.add(prereq);
 
 			}
 			Subject subject = new Subject(subjectId, prereqs);
@@ -88,14 +81,14 @@ public class SectionDao extends Dao {
 
 	}
 
-	// TODO Fetch prerequisites
+	/**Does not get prerequisites.**/
 	public Set<Section> getAll() {
-		String sql = "SELECT sections.*, subjects.subject_id, faculty.faculty_number FROM sections "
-				+ "INNER JOIN subjects ON sections.fk_subject = subjects.pk " + "INNER JOIN faculty ON sections.fk_faculty = faculty.pk ";
+
+		String sql = getSql("SectionDao.getAll.sql");
 
 		Set<Section> sections = new HashSet<>();
 		Section currentSection = null;
-		
+
 		try (Connection conn = getConnection()) {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
