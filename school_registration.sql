@@ -16,14 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `school_registration`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `school_registration` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `school_registration`;
-
---
 -- Table structure for table `enrollment_sections`
 --
 
@@ -37,8 +29,8 @@ CREATE TABLE `enrollment_sections` (
   PRIMARY KEY (`pk`),
   KEY `fk_enrollment` (`fk_enrollment`),
   KEY `fk_sections` (`fk_sections`),
-  CONSTRAINT `enrollment_sections_ibfk_2` FOREIGN KEY (`fk_sections`) REFERENCES `sections` (`pk`),
-  CONSTRAINT `enrollment_sections_ibfk_1` FOREIGN KEY (`fk_enrollment`) REFERENCES `enrollments` (`pk`)
+  CONSTRAINT `enrollment_sections_ibfk_1` FOREIGN KEY (`fk_enrollment`) REFERENCES `enrollments` (`pk`),
+  CONSTRAINT `enrollment_sections_ibfk_2` FOREIGN KEY (`fk_sections`) REFERENCES `sections` (`pk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -64,6 +56,7 @@ CREATE TABLE `enrollments` (
   `fk_students` int(11) DEFAULT NULL,
   `term` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`pk`),
+  UNIQUE KEY `enrollment_number` (`enrollment_number`),
   KEY `fk_students` (`fk_students`),
   CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`fk_students`) REFERENCES `students` (`pk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -88,7 +81,8 @@ DROP TABLE IF EXISTS `faculty`;
 CREATE TABLE `faculty` (
   `pk` int(11) NOT NULL,
   `faculty_number` int(11) DEFAULT NULL,
-  PRIMARY KEY (`pk`)
+  PRIMARY KEY (`pk`),
+  UNIQUE KEY `faculty_number` (`faculty_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -98,6 +92,7 @@ CREATE TABLE `faculty` (
 
 LOCK TABLES `faculty` WRITE;
 /*!40000 ALTER TABLE `faculty` DISABLE KEYS */;
+INSERT INTO `faculty` VALUES (0,0);
 /*!40000 ALTER TABLE `faculty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,10 +110,11 @@ CREATE TABLE `sections` (
   `fk_faculty` int(11) DEFAULT NULL,
   `schedule` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`pk`),
+  UNIQUE KEY `section_number` (`section_number`),
   KEY `fk_faculty` (`fk_faculty`),
   KEY `fk_subject` (`fk_subject`),
-  CONSTRAINT `sections_ibfk_2` FOREIGN KEY (`fk_subject`) REFERENCES `subjects` (`pk`),
-  CONSTRAINT `sections_ibfk_1` FOREIGN KEY (`fk_faculty`) REFERENCES `faculty` (`pk`)
+  CONSTRAINT `sections_ibfk_1` FOREIGN KEY (`fk_faculty`) REFERENCES `faculty` (`pk`),
+  CONSTRAINT `sections_ibfk_2` FOREIGN KEY (`fk_subject`) REFERENCES `subjects` (`pk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -128,6 +124,7 @@ CREATE TABLE `sections` (
 
 LOCK TABLES `sections` WRITE;
 /*!40000 ALTER TABLE `sections` DISABLE KEYS */;
+INSERT INTO `sections` VALUES (1,'AAA111',3,0,'MTH AM10'),(2,'BBB222',6,0,'TBA'),(3,'CCC333',5,0,'TBA'),(4,'DDD444',7,0,'TF PM4'),(5,'EEE555',5,0,'TBA'),(6,'GGG777',1,0,'TBA'),(7,'ZZZ000',4,0,'TF PM4');
 /*!40000 ALTER TABLE `sections` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,8 +142,8 @@ CREATE TABLE `student_enrollments` (
   PRIMARY KEY (`pk`),
   KEY `fk_student` (`fk_student`),
   KEY `fk_enrollment` (`fk_enrollment`),
-  CONSTRAINT `student_enrollments_ibfk_2` FOREIGN KEY (`fk_enrollment`) REFERENCES `enrollments` (`pk`),
-  CONSTRAINT `student_enrollments_ibfk_1` FOREIGN KEY (`fk_student`) REFERENCES `students` (`pk`)
+  CONSTRAINT `student_enrollments_ibfk_1` FOREIGN KEY (`fk_student`) REFERENCES `students` (`pk`),
+  CONSTRAINT `student_enrollments_ibfk_2` FOREIGN KEY (`fk_enrollment`) REFERENCES `enrollments` (`pk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -169,7 +166,8 @@ DROP TABLE IF EXISTS `students`;
 CREATE TABLE `students` (
   `pk` int(11) NOT NULL,
   `student_number` int(11) DEFAULT NULL,
-  PRIMARY KEY (`pk`)
+  PRIMARY KEY (`pk`),
+  UNIQUE KEY `student_number` (`student_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -196,8 +194,8 @@ CREATE TABLE `subject_prerequisites` (
   PRIMARY KEY (`pk`),
   KEY `fk_subject` (`fk_subject`),
   KEY `fk_prerequisite` (`fk_prerequisite`),
-  CONSTRAINT `subject_prerequisites_ibfk_2` FOREIGN KEY (`fk_prerequisite`) REFERENCES `subjects` (`pk`),
-  CONSTRAINT `subject_prerequisites_ibfk_1` FOREIGN KEY (`fk_subject`) REFERENCES `subjects` (`pk`)
+  CONSTRAINT `subject_prerequisites_ibfk_1` FOREIGN KEY (`fk_subject`) REFERENCES `subjects` (`pk`),
+  CONSTRAINT `subject_prerequisites_ibfk_2` FOREIGN KEY (`fk_prerequisite`) REFERENCES `subjects` (`pk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -207,6 +205,7 @@ CREATE TABLE `subject_prerequisites` (
 
 LOCK TABLES `subject_prerequisites` WRITE;
 /*!40000 ALTER TABLE `subject_prerequisites` DISABLE KEYS */;
+INSERT INTO `subject_prerequisites` VALUES (1,3,1),(2,3,2);
 /*!40000 ALTER TABLE `subject_prerequisites` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +219,8 @@ DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE `subjects` (
   `pk` int(11) NOT NULL,
   `subject_id` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`pk`)
+  PRIMARY KEY (`pk`),
+  UNIQUE KEY `subject_id` (`subject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -230,6 +230,7 @@ CREATE TABLE `subjects` (
 
 LOCK TABLES `subjects` WRITE;
 /*!40000 ALTER TABLE `subjects` DISABLE KEYS */;
+INSERT INTO `subjects` VALUES (4,'CHEM11'),(6,'COM1'),(5,'CS11'),(1,'MATH11'),(2,'MATH14'),(3,'MATH53'),(7,'PHILO1');
 /*!40000 ALTER TABLE `subjects` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -242,4 +243,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-09-22 13:41:29
+-- Dump completed on 2014-09-24 10:11:53
