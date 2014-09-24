@@ -49,7 +49,7 @@ public class SectionDao extends Dao {
 
 					if (fkFaculty != 0) { // not TBA
 						instructor = new Faculty(facultyNum);
-						setPrivateKey(instructor, fkFaculty);
+						setPrimaryKey(instructor, fkFaculty);
 					} else { // TBA
 						instructor = Faculty.TBA;
 					}
@@ -67,18 +67,18 @@ public class SectionDao extends Dao {
 
 				while (rsPrereq.next()) {
 					Subject prereq = new Subject(rsPrereq.getString("subject_id"));
-					setPrivateKey(prereq, fkPrerequisite);
+					setPrimaryKey(prereq, fkPrerequisite);
 					prereqs.add(prereq);
 				}
 
 			}
 			Subject subject = new Subject(subjectId, prereqs);
-			setPrivateKey(subject, fkSubject);
+			setPrimaryKey(subject, fkSubject);
 
 			String[] dayPeriod = scheduleString.split("\\s+");
 			Schedule schedule = dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
 			section = new Section(sectionNumber, subject, schedule, instructor);
-			setPrivateKey(section, pk);
+			setPrimaryKey(section, pk);
 
 		} catch (SQLException e) {
 			handleException(section, e);
@@ -112,18 +112,18 @@ public class SectionDao extends Dao {
 
 				if (fkFaculty != 0) { // not TBA
 					instructor = new Faculty(facultyNum);
-					setPrivateKey(instructor, fkFaculty);
+					setPrimaryKey(instructor, fkFaculty);
 				} else { // TBA
 					instructor = Faculty.TBA;
 				}
 
 				Subject subject = new Subject(subjectId);
-				setPrivateKey(subject, fkSubject);
+				setPrimaryKey(subject, fkSubject);
 
 				String[] dayPeriod = scheduleString.split("\\s+");
 				Schedule schedule = dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
 				currentSection = new Section(sectionNumber, subject, schedule, instructor);
-				setPrivateKey(currentSection, pk);
+				setPrimaryKey(currentSection, pk);
 
 				sections.add(new Section(sectionNumber, subject, schedule, instructor));
 			}

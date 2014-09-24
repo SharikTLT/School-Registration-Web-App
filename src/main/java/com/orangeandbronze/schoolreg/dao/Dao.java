@@ -27,7 +27,7 @@ public class Dao {
 		}
 	}
 
-	void setPrivateKey(Entity entity, long pk) {
+	void setPrimaryKey(Entity entity, long pk) {
 		try {
 			Field field = Section.class.getSuperclass().getDeclaredField("primaryKey");
 			field.setAccessible(true);
@@ -37,7 +37,7 @@ public class Dao {
 		}
 	}
 	
-	Long getPrivateKey(Entity entity) {
+	Long getPrimaryKey(Entity entity) {
 		try {
 			Field field = Section.class.getSuperclass().getDeclaredField("primaryKey");
 			field.setAccessible(true);
