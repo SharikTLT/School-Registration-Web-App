@@ -32,5 +32,5 @@ I created a very simple authentication component just to demonstrate Filters. Th
 If you would like to use Eclipse with this project, note that you will need to configure the Eclipse project to use Maven. Just right-click the project root and go to Configure --> Convert to Maven Project. After that, right-click the project root again and go to Maven --> Update Project. That should set up all your project dependencies.
 
 # To Do
- * DAO layer using JDBC * 
+ * DAO layer using JDBC
  * Error Pages

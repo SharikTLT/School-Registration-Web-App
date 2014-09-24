@@ -37,8 +37,20 @@ public class Dao {
 		}
 	}
 	
+	public Long getPrivateKey(Entity entity) {
+		try {
+			Field field = Section.class.getSuperclass().getDeclaredField("primaryKey");
+			field.setAccessible(true);
+			return (Long) field.get(entity);
+		} catch (ReflectiveOperationException e) {
+			throw new DataAccessException("Something happend getting " + entity.getClass() + " primary key via reflection.", e);
+		}
+	}
+	
 	void handleException(Entity entity, Exception e) {
 		throw new DataAccessException("Problem while accessing data for " + entity.getClass(), e);
 	}
+
+	
 
 }
