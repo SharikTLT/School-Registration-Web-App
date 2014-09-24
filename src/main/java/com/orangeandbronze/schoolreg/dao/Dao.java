@@ -11,6 +11,13 @@ import com.orangeandbronze.schoolreg.domain.Section;
 /** Layer Supertype for all Daos, to hold common code. **/
 public class Dao {
 
+	/*
+	 * TODO How to generate primary keys? There are two options: you can either
+	 * have the database do auto-increment, or you can generate keys in the
+	 * application. In the real world, both have their advantages and
+	 * disadvantages.
+	 */
+
 	public Dao() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // load driver class into JVM
@@ -36,7 +43,7 @@ public class Dao {
 			throw new DataAccessException("Something happend setting " + entity.getClass() + " primary key via reflection.", e);
 		}
 	}
-	
+
 	Long getPrimaryKey(Entity entity) {
 		try {
 			Field field = Section.class.getSuperclass().getDeclaredField("primaryKey");
@@ -46,11 +53,9 @@ public class Dao {
 			throw new DataAccessException("Something happend getting " + entity.getClass() + " primary key via reflection.", e);
 		}
 	}
-	
+
 	void handleException(Entity entity, Exception e) {
 		throw new DataAccessException("Problem while accessing data for " + entity.getClass(), e);
 	}
-
-	
 
 }
