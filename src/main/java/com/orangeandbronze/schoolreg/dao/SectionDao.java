@@ -49,12 +49,7 @@ public class SectionDao extends Dao {
 					subjectId = rs.getString("subject_id");
 					int facultyNum = rs.getInt("faculty_number");
 
-					if (fkFaculty != 0) { // not TBA
-						instructor = new Faculty(facultyNum);
-						setPrimaryKey(instructor, fkFaculty);
-					} else { // TBA
-						instructor = Faculty.TBA;
-					}
+					instructor = newFaculty(fkFaculty, facultyNum);
 
 				}
 
@@ -69,7 +64,7 @@ public class SectionDao extends Dao {
 			setPrimaryKey(subject, fkSubject);
 
 			String[] dayPeriod = scheduleString.split("\\s+");
-			Schedule schedule = dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
+			Schedule schedule = newSchedule(dayPeriod);
 			section = new Section(sectionNumber, subject, schedule, instructor);
 			setPrimaryKey(section, pk);
 
@@ -81,7 +76,7 @@ public class SectionDao extends Dao {
 
 	}
 
-	/**Does not get prerequisites.**/
+	/** Does not get prerequisites. **/
 	public Set<Section> getAll() {
 
 		String sql = getSql("SectionDao.getAll.sql");
@@ -103,18 +98,13 @@ public class SectionDao extends Dao {
 				int facultyNum = rs.getInt("faculty_number");
 				Faculty instructor;
 
-				if (fkFaculty != 0) { // not TBA
-					instructor = new Faculty(facultyNum);
-					setPrimaryKey(instructor, fkFaculty);
-				} else { // TBA
-					instructor = Faculty.TBA;
-				}
+				instructor = newFaculty(fkFaculty, facultyNum);
 
 				Subject subject = new Subject(subjectId);
 				setPrimaryKey(subject, fkSubject);
 
 				String[] dayPeriod = scheduleString.split("\\s+");
-				Schedule schedule = dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
+				Schedule schedule = newSchedule(dayPeriod);
 				currentSection = new Section(sectionNumber, subject, schedule, instructor);
 				setPrimaryKey(currentSection, pk);
 
@@ -126,6 +116,22 @@ public class SectionDao extends Dao {
 		}
 
 		return sections;
+	}
+
+	private Schedule newSchedule(String[] dayPeriod) {
+		Schedule schedule = dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
+		return schedule;
+	}
+
+	private Faculty newFaculty(long fkFaculty, int facultyNum) {
+		Faculty instructor;
+		if (fkFaculty != 0) { // not TBA
+			instructor = new Faculty(facultyNum);
+			setPrimaryKey(instructor, fkFaculty);
+		} else { // TBA
+			instructor = Faculty.TBA;
+		}
+		return instructor;
 	}
 
 }
