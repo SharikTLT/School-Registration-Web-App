@@ -63,8 +63,7 @@ public class SectionDao extends Dao {
 			Subject subject = new Subject(subjectId, prereqs);
 			setPrimaryKey(subject, fkSubject);
 
-			String[] dayPeriod = scheduleString.split("\\s+");
-			Schedule schedule = newSchedule(dayPeriod);
+			Schedule schedule = newSchedule(scheduleString);
 			section = new Section(sectionNumber, subject, schedule, instructor);
 			setPrimaryKey(section, pk);
 
@@ -103,8 +102,7 @@ public class SectionDao extends Dao {
 				Subject subject = new Subject(subjectId);
 				setPrimaryKey(subject, fkSubject);
 
-				String[] dayPeriod = scheduleString.split("\\s+");
-				Schedule schedule = newSchedule(dayPeriod);
+				Schedule schedule = newSchedule(scheduleString);
 				currentSection = new Section(sectionNumber, subject, schedule, instructor);
 				setPrimaryKey(currentSection, pk);
 
@@ -118,9 +116,9 @@ public class SectionDao extends Dao {
 		return sections;
 	}
 
-	private Schedule newSchedule(String[] dayPeriod) {
-		Schedule schedule = dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
-		return schedule;
+	private Schedule newSchedule(String scheduleString) {
+		String[] dayPeriod = scheduleString.split("\\s+");
+		return dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
 	}
 
 	private Faculty newFaculty(long fkFaculty, int facultyNum) {
