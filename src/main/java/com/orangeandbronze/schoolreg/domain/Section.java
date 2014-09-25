@@ -107,7 +107,7 @@ public class Section extends Entity {
 
 	@Override
 	public String toString() {
-		return "Section " + sectionNumber + " {" + subject + " " + schedule + "} ";
+		return sectionNumber + " {" + subject + " " + schedule + "} ";
 	}
 
 }

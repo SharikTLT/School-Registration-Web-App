@@ -48,9 +48,7 @@ public class SectionDao extends Dao {
 					scheduleString = rs.getString("schedule");
 					subjectId = rs.getString("subject_id");
 					int facultyNum = rs.getInt("faculty_number");
-
 					instructor = newFaculty(fkFaculty, facultyNum);
-
 				}
 
 				// get prereqs
@@ -80,33 +78,52 @@ public class SectionDao extends Dao {
 
 		String sql = getSql("SectionDao.getAll.sql");
 
-		Set<Section> sections = new HashSet<>();
+		final Set<Section> sections = new HashSet<>();
 		Section currentSection = null;
 
 		try (Connection conn = getConnection()) {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 
+			Set<Long> primaryKeys = new HashSet<>();
+
+			long pk = 0;
+			long fkSubject = 0;
+			String scheduleString = null;
+			String subjectId = null;
+			String sectionNumber = null;
+
+			Faculty instructor = null;
+
+			Set<Subject> prereqs = new HashSet<>();
+
 			while (rs.next()) {
-				long pk = rs.getInt("pk");
-				String sectionNumber = rs.getString("section_number");
-				long fkSubject = rs.getInt("fk_subject");
-				long fkFaculty = rs.getInt("fk_faculty");
-				String scheduleString = rs.getString("schedule");
-				String subjectId = rs.getString("subject_id");
-				int facultyNum = rs.getInt("faculty_number");
-				Faculty instructor;
+				pk = rs.getInt("pk");
+				if (!primaryKeys.contains(pk)) { // new Section				
+					fkSubject = rs.getInt("fk_subject");
+					sectionNumber = rs.getString("section_number");
+					long fkFaculty = rs.getInt("fk_faculty");
+					scheduleString = rs.getString("schedule");
+					subjectId = rs.getString("subject_id");
+					int facultyNum = rs.getInt("faculty_number");
+					instructor = newFaculty(fkFaculty, facultyNum);
+					prereqs = new HashSet<>(); // garbage collect old prereqs
+					Subject subject = new Subject(subjectId, prereqs);
+					setPrimaryKey(subject, fkSubject);
 
-				instructor = newFaculty(fkFaculty, facultyNum);
+					Schedule schedule = newSchedule(scheduleString);
+					currentSection = new Section(sectionNumber, subject, schedule, instructor);
+					setPrimaryKey(currentSection, pk);
+					sections.add(currentSection);
+					primaryKeys.add(pk);
+				}
+				
+				// get prereqs
+				int fkPrerequisite = rs.getInt("fk_prerequisite");
+				Subject prereq = new Subject(rs.getString("prerequisites"));
+				setPrimaryKey(prereq, fkPrerequisite);
+				prereqs.add(prereq);
 
-				Subject subject = new Subject(subjectId);
-				setPrimaryKey(subject, fkSubject);
-
-				Schedule schedule = newSchedule(scheduleString);
-				currentSection = new Section(sectionNumber, subject, schedule, instructor);
-				setPrimaryKey(currentSection, pk);
-
-				sections.add(new Section(sectionNumber, subject, schedule, instructor));
 			}
 
 		} catch (SQLException e) {
