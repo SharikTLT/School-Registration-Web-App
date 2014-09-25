@@ -85,44 +85,51 @@ public class SectionDao extends Dao {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 
-			Set<Long> primaryKeys = new HashSet<>();
-
 			long pk = 0;
+			long previousPk = 0;
 			long fkSubject = 0;
 			String scheduleString = null;
 			String subjectId = null;
 			String sectionNumber = null;
-
+			Subject subject = null;
+			Schedule schedule = null;
 			Faculty instructor = null;
+			int facultyNumber = 0;
+			long fkFaculty = 0;
+			
 
 			Set<Subject> prereqs = new HashSet<>();
 
-			while (rs.next()) {
+			while (rs.next()) {	// TODO Prerequisites not being assigned to subject since Subject constructor just copies
 				pk = rs.getInt("pk");
-				if (!primaryKeys.contains(pk)) { // new Section				
+				if (pk != previousPk) { 
 					fkSubject = rs.getInt("fk_subject");
 					sectionNumber = rs.getString("section_number");
-					long fkFaculty = rs.getInt("fk_faculty");
+					fkFaculty = rs.getInt("fk_faculty");
 					scheduleString = rs.getString("schedule");
 					subjectId = rs.getString("subject_id");
-					int facultyNum = rs.getInt("faculty_number");
-					instructor = newFaculty(fkFaculty, facultyNum);
+					facultyNumber = rs.getInt("faculty_number");
+					instructor = newFaculty(fkFaculty, facultyNumber);
 					prereqs = new HashSet<>(); // garbage collect old prereqs
-					Subject subject = new Subject(subjectId, prereqs);
-					setPrimaryKey(subject, fkSubject);
-
-					Schedule schedule = newSchedule(scheduleString);
+					schedule = newSchedule(scheduleString);
 					currentSection = new Section(sectionNumber, subject, schedule, instructor);
 					setPrimaryKey(currentSection, pk);
-					sections.add(currentSection);
-					primaryKeys.add(pk);
-				}
+				}  
 				
 				// get prereqs
 				int fkPrerequisite = rs.getInt("fk_prerequisite");
 				Subject prereq = new Subject(rs.getString("prerequisites"));
 				setPrimaryKey(prereq, fkPrerequisite);
 				prereqs.add(prereq);
+				
+				if (previousPk != 0) { // new Section		
+					instructor = newFaculty(fkFaculty, facultyNumber);
+					subject = new Subject(subjectId, prereqs);
+					setPrimaryKey(subject, fkSubject);
+					currentSection = new Section(sectionNumber, subject, schedule, instructor);
+					sections.add(currentSection);
+				} 
+				previousPk = pk;
 
 			}
 
