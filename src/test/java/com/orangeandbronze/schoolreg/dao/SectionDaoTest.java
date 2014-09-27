@@ -27,7 +27,7 @@ public class SectionDaoTest extends DBTestCase {
 
 	@Override
 	protected IDataSet getDataSet() throws Exception {
-		return new FlatXmlDataSetBuilder().build(new FileReader("src/test/SectionDaoTest.xml"));
+		return new FlatXmlDataSetBuilder().build( getClass().getResourceAsStream("SectionDaoTest.xml") );
 	}
 
 	public void testGetAll() {

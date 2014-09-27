@@ -68,7 +68,7 @@ public class Dao {
 		throw new DataAccessException("Problem while accessing data for " + entity.getClass(), e);
 	}
 
-	protected String getSql(String sqlFile) {
+	String getSql(String sqlFile) {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(sqlFile)))) {
 			return br.readLine();
 		} catch (IOException e) {
