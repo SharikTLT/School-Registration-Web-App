@@ -49,10 +49,7 @@ public class SectionDao extends Dao {
 					instructor = newFaculty(fkFaculty, facultyNum);
 				}
 
-				// get prereqs
-				int fkPrerequisite = rs.getInt("fk_prerequisite");
-				Subject prereq = newSubject(fkPrerequisite, rs.getString("prerequisites"));
-				prereqs.add(prereq);
+				getPrerequisites(rs, prereqs);
 
 			}
 			Subject subject = newSubject(fkSubject, subjectId, prereqs);
@@ -116,10 +113,7 @@ public class SectionDao extends Dao {
 				}  
 				
 				// get prereqs
-				int fkPrerequisite = rs.getInt("fk_prerequisite");
-				Subject prereq = newSubject(fkPrerequisite, rs.getString("prerequisites"));
-				prereqs.add(prereq);
-				
+				getPrerequisites(rs, prereqs);		
 				
 				previousPk = pk;
 			}
@@ -130,6 +124,12 @@ public class SectionDao extends Dao {
 		}
 
 		return sections;
+	}
+
+	void getPrerequisites(ResultSet rs, Set<Subject> prereqs) throws SQLException {
+		int fkPrerequisite = rs.getInt("fk_prerequisite");
+		Subject prereq = newSubject(fkPrerequisite, rs.getString("prerequisites"));
+		prereqs.add(prereq);
 	}
 
 	private void createSubjectSectionAndAddToCollection(final Set<Section> sections, long pk, long fkSubject, String subjectId, String sectionNumber,
