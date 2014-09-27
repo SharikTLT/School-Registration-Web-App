@@ -32,6 +32,7 @@ public class SectionDao extends Dao {
 
 			long pk = 0;
 			long fkSubject = 0;
+			long fkFaculty = 0;
 			String scheduleString = null;
 			String subjectId = null;
 
@@ -42,7 +43,7 @@ public class SectionDao extends Dao {
 				if (rs.isFirst()) {
 					pk = rs.getInt("pk");
 					fkSubject = rs.getInt("fk_subject");
-					long fkFaculty = rs.getInt("fk_faculty");
+					fkFaculty = rs.getInt("fk_faculty");
 					scheduleString = rs.getString("schedule");
 					subjectId = rs.getString("subject_id");
 					int facultyNum = rs.getInt("faculty_number");
@@ -88,20 +89,19 @@ public class SectionDao extends Dao {
 			Faculty instructor = null;
 			int facultyNumber = 0;
 			long fkFaculty = 0;
-			
 
 			Set<Subject> prereqs = new HashSet<>();
 
-			while (rs.next()) {	// TODO Prerequisites not being assigned to subject since Subject constructor just copies
+			while (rs.next()) {
 				pk = rs.getInt("pk");
-				
+
 				if (pk != previousPk && previousPk != 0) { // previous row was last row in a series of rows w/ same pk
 					createSubjectSectionAndAddToCollection(sections, pk, fkSubject, subjectId, sectionNumber, schedule, instructor, prereqs);
-				} 
-				
-				if (pk != previousPk) { // new Section		
-					fkSubject = rs.getInt("fk_subject");
+				}
+
+				if (pk != previousPk) { // new Section
 					sectionNumber = rs.getString("section_number");
+					fkSubject = rs.getInt("fk_subject");
 					fkFaculty = rs.getInt("fk_faculty");
 					scheduleString = rs.getString("schedule");
 					subjectId = rs.getString("subject_id");
@@ -110,11 +110,11 @@ public class SectionDao extends Dao {
 					prereqs = new HashSet<>(); // garbage collect old prereqs
 					schedule = newSchedule(scheduleString);
 					instructor = newFaculty(fkFaculty, facultyNumber);
-				}  
-				
+				}
+
 				// get prereqs
-				getPrerequisites(rs, prereqs);		
-				
+				getPrerequisites(rs, prereqs);
+
 				previousPk = pk;
 			}
 			createSubjectSectionAndAddToCollection(sections, pk, fkSubject, subjectId, sectionNumber, schedule, instructor, prereqs);
