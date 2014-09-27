@@ -51,17 +51,14 @@ public class SectionDao extends Dao {
 
 				// get prereqs
 				int fkPrerequisite = rs.getInt("fk_prerequisite");
-				Subject prereq = new Subject(rs.getString("prerequisites"));
-				setPrimaryKey(prereq, fkPrerequisite);
+				Subject prereq = newSubject(fkPrerequisite, rs.getString("prerequisites"));
 				prereqs.add(prereq);
 
 			}
-			Subject subject = new Subject(subjectId, prereqs);
-			setPrimaryKey(subject, fkSubject);
+			Subject subject = newSubject(fkSubject, subjectId, prereqs);
 
 			Schedule schedule = newSchedule(scheduleString);
-			section = new Section(sectionNumber, subject, schedule, instructor);
-			setPrimaryKey(section, pk);
+			section = newSection(pk, sectionNumber, subject, schedule, instructor);
 
 		} catch (SQLException e) {
 			handleException(section, e);
@@ -100,7 +97,12 @@ public class SectionDao extends Dao {
 
 			while (rs.next()) {	// TODO Prerequisites not being assigned to subject since Subject constructor just copies
 				pk = rs.getInt("pk");
-				if (pk != previousPk) { 
+				
+				if (pk != previousPk && previousPk != 0) { // previous row was last row in a series of rows w/ same pk
+					createSubjectSectionAndAddToCollection(sections, pk, fkSubject, subjectId, sectionNumber, schedule, instructor, prereqs);
+				} 
+				
+				if (pk != previousPk) { // new Section		
 					fkSubject = rs.getInt("fk_subject");
 					sectionNumber = rs.getString("section_number");
 					fkFaculty = rs.getInt("fk_faculty");
@@ -110,32 +112,33 @@ public class SectionDao extends Dao {
 					instructor = newFaculty(fkFaculty, facultyNumber);
 					prereqs = new HashSet<>(); // garbage collect old prereqs
 					schedule = newSchedule(scheduleString);
-					currentSection = new Section(sectionNumber, subject, schedule, instructor);
-					setPrimaryKey(currentSection, pk);
+					instructor = newFaculty(fkFaculty, facultyNumber);
 				}  
 				
 				// get prereqs
 				int fkPrerequisite = rs.getInt("fk_prerequisite");
-				Subject prereq = new Subject(rs.getString("prerequisites"));
-				setPrimaryKey(prereq, fkPrerequisite);
+				Subject prereq = newSubject(fkPrerequisite, rs.getString("prerequisites"));
 				prereqs.add(prereq);
 				
-				if (previousPk != 0) { // new Section		
-					instructor = newFaculty(fkFaculty, facultyNumber);
-					subject = new Subject(subjectId, prereqs);
-					setPrimaryKey(subject, fkSubject);
-					currentSection = new Section(sectionNumber, subject, schedule, instructor);
-					sections.add(currentSection);
-				} 
+				
 				previousPk = pk;
-
 			}
+			createSubjectSectionAndAddToCollection(sections, pk, fkSubject, subjectId, sectionNumber, schedule, instructor, prereqs);
 
 		} catch (SQLException e) {
 			handleException(currentSection, e);
 		}
 
 		return sections;
+	}
+
+	private void createSubjectSectionAndAddToCollection(final Set<Section> sections, long pk, long fkSubject, String subjectId, String sectionNumber,
+			Schedule schedule, Faculty instructor, Set<Subject> prereqs) {
+		Section currentSection;
+		Subject subject;
+		subject = newSubject(fkSubject, subjectId, prereqs);
+		currentSection = newSection(pk, sectionNumber, subject, schedule, instructor);
+		sections.add(currentSection);
 	}
 
 }

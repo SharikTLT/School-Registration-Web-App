@@ -7,6 +7,8 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.orangeandbronze.schoolreg.domain.Days;
 import com.orangeandbronze.schoolreg.domain.Entity;
@@ -14,6 +16,7 @@ import com.orangeandbronze.schoolreg.domain.Faculty;
 import com.orangeandbronze.schoolreg.domain.Period;
 import com.orangeandbronze.schoolreg.domain.Schedule;
 import com.orangeandbronze.schoolreg.domain.Section;
+import com.orangeandbronze.schoolreg.domain.Subject;
 
 /** Layer Supertype for all Daos, to hold common code. **/
 public class Dao {
@@ -78,15 +81,32 @@ public class Dao {
 		return dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
 	}
 
-	Faculty newFaculty(long fkFaculty, int facultyNum) {
+	Faculty newFaculty(long pk, int facultyNum) {
 		Faculty instructor;
-		if (fkFaculty != 0) { // not TBA
+		if (pk != 0) { // not TBA
 			instructor = new Faculty(facultyNum);
-			setPrimaryKey(instructor, fkFaculty);
+			setPrimaryKey(instructor, pk);
 		} else { // TBA
 			instructor = Faculty.TBA;
 		}
 		return instructor;
 	}
+	
+	Subject newSubject(long pk, String subjectId, Set<Subject> prereqs) {
+		Subject subject = new Subject(subjectId, prereqs);
+		setPrimaryKey(subject, pk);
+		return subject;
+	}
+	
+	Subject newSubject(long pk, String subjectId) {
+		return newSubject(pk, subjectId, new HashSet<Subject>());
+	}
+	
+	Section newSection(long pk, String sectionNumber, Subject subject, Schedule schedule, Faculty instructor) {
+		Section section = new Section(sectionNumber, subject, schedule, instructor);
+		setPrimaryKey(section, pk);
+		return section;
+	}
+			
 
 }
