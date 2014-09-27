@@ -8,7 +8,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.orangeandbronze.schoolreg.domain.Days;
 import com.orangeandbronze.schoolreg.domain.Entity;
+import com.orangeandbronze.schoolreg.domain.Faculty;
+import com.orangeandbronze.schoolreg.domain.Period;
+import com.orangeandbronze.schoolreg.domain.Schedule;
 import com.orangeandbronze.schoolreg.domain.Section;
 
 /** Layer Supertype for all Daos, to hold common code. **/
@@ -21,7 +25,7 @@ public class Dao {
 	 * disadvantages.
 	 */
 
-	public Dao() {
+	Dao() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); // load driver class into JVM
 		} catch (ClassNotFoundException e) {
@@ -67,6 +71,22 @@ public class Dao {
 		} catch (IOException e) {
 			throw new DataAccessException("Problem while trying to read file from classpath.", e);
 		}
+	}
+
+	Schedule newSchedule(String scheduleString) {
+		String[] dayPeriod = scheduleString.split("\\s+");
+		return dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
+	}
+
+	Faculty newFaculty(long fkFaculty, int facultyNum) {
+		Faculty instructor;
+		if (fkFaculty != 0) { // not TBA
+			instructor = new Faculty(facultyNum);
+			setPrimaryKey(instructor, fkFaculty);
+		} else { // TBA
+			instructor = Faculty.TBA;
+		}
+		return instructor;
 	}
 
 }

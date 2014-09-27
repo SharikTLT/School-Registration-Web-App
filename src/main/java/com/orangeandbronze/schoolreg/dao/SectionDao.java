@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.orangeandbronze.schoolreg.domain.Days;
 import com.orangeandbronze.schoolreg.domain.Faculty;
-import com.orangeandbronze.schoolreg.domain.Period;
 import com.orangeandbronze.schoolreg.domain.Schedule;
 import com.orangeandbronze.schoolreg.domain.Section;
 import com.orangeandbronze.schoolreg.domain.Subject;
@@ -138,22 +136,6 @@ public class SectionDao extends Dao {
 		}
 
 		return sections;
-	}
-
-	private Schedule newSchedule(String scheduleString) {
-		String[] dayPeriod = scheduleString.split("\\s+");
-		return dayPeriod.length > 1 ? new Schedule(Days.valueOf(dayPeriod[0]), Period.valueOf(dayPeriod[1])) : Schedule.TBA;
-	}
-
-	private Faculty newFaculty(long fkFaculty, int facultyNum) {
-		Faculty instructor;
-		if (fkFaculty != 0) { // not TBA
-			instructor = new Faculty(facultyNum);
-			setPrimaryKey(instructor, fkFaculty);
-		} else { // TBA
-			instructor = Faculty.TBA;
-		}
-		return instructor;
 	}
 
 }
