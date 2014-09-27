@@ -1,4 +1,4 @@
-<!DOCTYPE dataset SYSTEM "src/test/datasets.dtd">
+<!DOCTYPE dataset SYSTEM "datasets.dtd">
 <dataset>
     <faculty pk="0"  faculty_number="0"/>	
 
