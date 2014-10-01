@@ -54,7 +54,8 @@ public class Section extends Entity {
 	}
 
 	boolean hasConflict(Section other) {
-		if (this. schedule == Schedule.TBA || other.schedule == Schedule.TBA ) {
+		// using Yoda conditions to avoid null pointer
+		if (Schedule.TBA == this. schedule  || Schedule.TBA == other.schedule) {	
 			return false;
 		}
 		return this.schedule.equals(other.schedule);
