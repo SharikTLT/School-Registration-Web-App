@@ -1,10 +1,9 @@
 package com.orangeandbronze.schoolreg.domain;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +35,7 @@ public class EnrollmentTest {
 		enrollment.enlist(sec1);
 		final Section sec2 = new Section("TFX123", new Subject("BA101"));
 		enrollment.enlist(sec2);
-		assertThat(enrollment.getSections(), containsInAnyOrder(sec1, sec2));
+		assertThat(enrollment.getSections(), containsInAnyOrder(sec1, sec2));	//TODO replace deprecated method
 	}
 	
 	@Test(expected = MissingPrerequisitesException.class)

@@ -1,8 +1,5 @@
 package com.orangeandbronze.schoolreg.dao;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
