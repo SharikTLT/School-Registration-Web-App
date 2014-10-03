@@ -1,5 +1,7 @@
 package com.orangeandbronze.schoolreg.domain;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
@@ -15,7 +17,7 @@ public class Student extends Entity {
 		this.studentNumber = studentNumber;
 	}
 	
-	public Student(Integer studentNumber, Set<Enrollment> enrollments) {
+	public Student(Integer studentNumber, Collection<Enrollment> enrollments) {
 		this.studentNumber = studentNumber;
 		this.enrollments.addAll(enrollments);
 	}
@@ -32,12 +34,12 @@ public class Student extends Entity {
 		enrollments.add(e);
 	}
 
-	Set<Enrollment> getPreviousEnrollmentsTo(Enrollment e) {
-		return enrollments.headSet(e);
+	Collection<Enrollment> getPreviousEnrollmentsTo(Enrollment e) {
+		return new ArrayList(enrollments.headSet(e));
 	}
 
 	public boolean hasTakenPrerequisites(Section newSec, Enrollment currentEnrollment) {
-		Set<Enrollment> prevEnrollments = getPreviousEnrollmentsTo(currentEnrollment);
+		Collection<Enrollment> prevEnrollments = getPreviousEnrollmentsTo(currentEnrollment);
 		return newSec.hasAllPrerequisitesIn(prevEnrollments);
 	}
 	

@@ -1,7 +1,10 @@
 package com.orangeandbronze.schoolreg.domain;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,14 +30,13 @@ public class EnrollmentTest {
 	}
 	
 	@Test
-	public void enlistSectionIfScheduleIsNull() {
+	public void enlistSectionIfNoScheduleSpecified() {
 		Enrollment enrollment = new Enrollment(123, new Student(456), Term.Y2014_1ST);
 		final Section sec1 = new Section("MTH123", new Subject("ENG101"), new Schedule(Days.MTH, Period.AM10));
 		enrollment.enlist(sec1);
 		final Section sec2 = new Section("TFX123", new Subject("BA101"));
 		enrollment.enlist(sec2);
-		Set<Section> expected = new HashSet<Section>() {{ add(sec1); add(sec2); }};
-		assertEquals(expected, enrollment.getSections());
+		assertThat(enrollment.getSections(), containsInAnyOrder(sec1, sec2));
 	}
 	
 	@Test(expected = MissingPrerequisitesException.class)

@@ -1,18 +1,19 @@
 package com.orangeandbronze.schoolreg.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Subject extends Entity {
 	
 	private final String subjectId;
-	private final Set<Subject> prerequisites = new HashSet<>();
+	private final List<Subject> prerequisites = new ArrayList<>();
 
 	public Subject(String subjectId) {
 		this.subjectId = subjectId;
 	}
 	
-	public Subject(String subjectId, Set<Subject> prerequisites) {
+	public Subject(String subjectId, Collection<Subject> prerequisites) {
 		this.subjectId = subjectId;
 		this.prerequisites.addAll(prerequisites);
 	}
@@ -52,8 +53,8 @@ public class Subject extends Entity {
 		return subjectId;
 	}
 
-	public Set<Subject> getPrerequisites() {
-		return new HashSet<>(prerequisites);
+	public Collection<Subject> getPrerequisites() {
+		return new ArrayList<>(prerequisites);
 	}
 	
 

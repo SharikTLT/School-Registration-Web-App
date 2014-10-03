@@ -1,5 +1,6 @@
 package com.orangeandbronze.schoolreg.domain;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,15 +62,16 @@ public class Section extends Entity {
 		return this.schedule.equals(other.schedule);
 	}
 
-	Set<Subject> getPrerequisites() {
+	Collection<Subject> getPrerequisites() {
 		return subject.getPrerequisites();
 	}
-
-	public boolean hasAllPrerequisitesIn(Set<Enrollment> prevEnrollments) {
-		Set<Subject> prerequisitesRequired = getPrerequisites();
-		Set<Subject> prerequisitesTaken = new HashSet<>();
+	
+	//TODO Check if some logic can be pushed down to Subject
+	boolean hasAllPrerequisitesIn(Collection<Enrollment> prevEnrollments) {
+		Collection<Subject> prerequisitesRequired = getPrerequisites();
+		Collection<Subject> prerequisitesTaken = new HashSet<>();
 		for (Enrollment prevEnrollment : prevEnrollments) {
-			Set<Section> prevSections = prevEnrollment.getSections();
+			Collection<Section> prevSections = prevEnrollment.getSections();
 			for (Section prevSection : prevSections){
 				Subject subject = prevSection.getSubject();
 				if (prerequisitesRequired.contains(subject)) {
@@ -77,7 +79,7 @@ public class Section extends Entity {
 				}
 			}
 		}
-		return prerequisitesRequired.equals(prerequisitesTaken);
+		return prerequisitesTaken.containsAll(prerequisitesRequired);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.orangeandbronze.schoolreg.domain;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +21,7 @@ public class Enrollment extends Entity implements Comparable<Enrollment>{
 		}
 	}
 	
-	public Enrollment(int enrollmentNumber, Student student, Term term, Set<Section> enlistedSections) {
+	public Enrollment(int enrollmentNumber, Student student, Term term, Collection<Section> enlistedSections) {
 		this(enrollmentNumber, student, term);
 		sections.addAll(enlistedSections);
 	}
@@ -33,8 +35,8 @@ public class Enrollment extends Entity implements Comparable<Enrollment>{
 	}
 	
 	/** Returns a copy of the sections in this enrollment. **/
-	public Set<Section> getSections() {
-		return new HashSet<Section>(sections);
+	public Collection<Section> getSections() {
+		return new ArrayList<Section>(sections);
 	}
 
 	public void enlist(Section newSec) {

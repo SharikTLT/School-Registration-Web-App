@@ -1,5 +1,6 @@
 package com.orangeandbronze.schoolreg.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -9,7 +10,6 @@ import com.orangeandbronze.schoolreg.dao.EnrollmentDao;
 import com.orangeandbronze.schoolreg.dao.SectionDao;
 import com.orangeandbronze.schoolreg.dao.StudentDao;
 import com.orangeandbronze.schoolreg.dao.mock.MockEnrollmentDao;
-import com.orangeandbronze.schoolreg.dao.mock.MockSectionDao;
 import com.orangeandbronze.schoolreg.dao.mock.MockStudentDao;
 import com.orangeandbronze.schoolreg.domain.EnlistmentConflictException;
 import com.orangeandbronze.schoolreg.domain.Enrollment;
@@ -24,7 +24,7 @@ public class EnlistService {
 	private SectionDao sectionDao = new SectionDao();
 	private EnrollmentDao enrollmentDao = new MockEnrollmentDao(); // TODO When real Dao is implemented, replace this with real Dao
 	
-	public Set<Section> getAllSections() {
+	public Collection<Section> getAllSections() {
 		return sectionDao.getAll();
 	}
 

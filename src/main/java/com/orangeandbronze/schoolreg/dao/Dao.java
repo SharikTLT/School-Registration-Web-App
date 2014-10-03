@@ -7,8 +7,8 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import com.orangeandbronze.schoolreg.domain.Days;
 import com.orangeandbronze.schoolreg.domain.Entity;
@@ -92,14 +92,14 @@ public class Dao {
 		return instructor;
 	}
 	
-	Subject newSubject(long pk, String subjectId, Set<Subject> prereqs) {
+	Subject newSubject(long pk, String subjectId, Collection<Subject> prereqs) {
 		Subject subject = new Subject(subjectId, prereqs);
 		setPrimaryKey(subject, pk);
 		return subject;
 	}
 	
 	Subject newSubject(long pk, String subjectId) {
-		return newSubject(pk, subjectId, new HashSet<Subject>());
+		return newSubject(pk, subjectId, new LinkedList<Subject>());
 	}
 	
 	Section newSection(long pk, String sectionNumber, Subject subject, Schedule schedule, Faculty instructor) {

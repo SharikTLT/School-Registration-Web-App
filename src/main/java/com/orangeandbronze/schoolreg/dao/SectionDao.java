@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Set;
 
 import com.orangeandbronze.schoolreg.domain.Faculty;
@@ -38,7 +40,7 @@ public class SectionDao extends Dao {
 
 			Faculty instructor = null;
 
-			Set<Subject> prereqs = new HashSet<>();
+			Collection<Subject> prereqs = new LinkedList<>();
 			while (rs.next()) {
 				if (rs.isFirst()) {
 					pk = rs.getInt("pk");
@@ -67,11 +69,11 @@ public class SectionDao extends Dao {
 	}
 
 	/** Does not get prerequisites. **/
-	public Set<Section> getAll() {
+	public Collection<Section> getAll() {
 
 		String sql = getSql("SectionDao.getAll.sql");
 
-		final Set<Section> sections = new HashSet<>();
+		final Collection<Section> sections = new LinkedList<>();
 		Section currentSection = null;
 
 		try (Connection conn = getConnection()) {
@@ -90,7 +92,7 @@ public class SectionDao extends Dao {
 			int facultyNumber = 0;
 			long fkFaculty = 0;
 
-			Set<Subject> prereqs = new HashSet<>();
+			Collection<Subject> prereqs = new LinkedList<>();
 
 			while (rs.next()) {
 				pk = rs.getInt("pk");
@@ -107,7 +109,7 @@ public class SectionDao extends Dao {
 					subjectId = rs.getString("subject_id");
 					facultyNumber = rs.getInt("faculty_number");
 					instructor = newFaculty(fkFaculty, facultyNumber);
-					prereqs = new HashSet<>(); // garbage collect old prereqs
+					prereqs = new LinkedList<>(); // garbage collect old prereqs
 					schedule = newSchedule(scheduleString);
 					instructor = newFaculty(fkFaculty, facultyNumber);
 				}
@@ -126,14 +128,14 @@ public class SectionDao extends Dao {
 		return sections;
 	}
 
-	void getPrerequisites(ResultSet rs, Set<Subject> prereqs) throws SQLException {
+	void getPrerequisites(ResultSet rs, Collection<Subject> prereqs) throws SQLException {
 		int fkPrerequisite = rs.getInt("fk_prerequisite");
 		Subject prereq = newSubject(fkPrerequisite, rs.getString("prerequisites"));
 		prereqs.add(prereq);
 	}
 
-	private void createSubjectSectionAndAddToCollection(final Set<Section> sections, long pk, long fkSubject, String subjectId, String sectionNumber,
-			Schedule schedule, Faculty instructor, Set<Subject> prereqs) {
+	private void createSubjectSectionAndAddToCollection(Collection<Section> sections, long pk, long fkSubject, String subjectId, String sectionNumber,
+			Schedule schedule, Faculty instructor, Collection<Subject> prereqs) {
 		Section currentSection;
 		Subject subject;
 		subject = newSubject(fkSubject, subjectId, prereqs);

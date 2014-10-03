@@ -1,8 +1,12 @@
 package com.orangeandbronze.schoolreg.dao;
 
-import java.io.FileReader;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Set;
 
 import org.dbunit.DBTestCase;
@@ -29,7 +33,7 @@ public class SectionDaoTest extends DBTestCase {
 	protected IDataSet getDataSet() throws Exception {
 		FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
 		builder.setDtdMetadata(false);
-		return builder.build( getClass().getResourceAsStream("SectionDaoTest.xml") );
+		return builder.build(getClass().getResourceAsStream("SectionDaoTest.xml"));
 	}
 
 	public void testGetAll() {
@@ -54,8 +58,15 @@ public class SectionDaoTest extends DBTestCase {
 			}
 		};
 		SectionDao dao = new SectionDao();
-		Set<Section> actual = dao.getAll();
+		Collection<Section> actual = new HashSet<>(dao.getAll());
 		assertEquals(expectedSections, actual);
+		
+//		assertThat(
+//				actual,
+//				containsInAnyOrder(new Section("AAA111", subjWithPrereq, new Schedule(Days.MTH, Period.AM10)), new Section("BBB222", new Subject("COM1")),
+//						new Section("CCC333", new Subject("CS11")), new Section("DDD444", new Subject("PHILO1"), new Schedule(Days.TF, Period.PM4)),
+//						new Section("EEE555", new Subject("CS11")), new Section("GGG777", new Subject("MATH11")), new Section("ZZZ000", new Subject("CHEM11"),
+//								new Schedule(Days.TF, Period.PM4))));
 
 		Iterator<Section> iActual = actual.iterator();
 		Iterator<Section> iExpected = expectedSections.iterator();
@@ -72,7 +83,7 @@ public class SectionDaoTest extends DBTestCase {
 			assertEquals(expectedSubject, actualSubject);
 
 			if (actualSubject.equals(subjWithPrereq)) {
-				Set<Subject> actualPrereq = actualSubject.getPrerequisites();
+				Collection<Subject> actualPrereq = new HashSet<>(actualSubject.getPrerequisites());
 				assertEquals(expectedPrereq, actualPrereq);
 			}
 		}
@@ -97,7 +108,7 @@ public class SectionDaoTest extends DBTestCase {
 		Section actual = dao.getById("AAA111");
 		final Subject math11 = new Subject("MATH11");
 		final Subject math14 = new Subject("MATH14");
-		final Set<Subject> expectedPrereq = new HashSet<Subject>() {
+		final Collection<Subject> expectedPrereq = new LinkedList<Subject>() {
 			{
 				add(math11);
 				add(math14);
@@ -112,7 +123,7 @@ public class SectionDaoTest extends DBTestCase {
 		Subject actualSubject = actual.getSubject();
 		assertEquals(expectedSubject, actualSubject);
 
-		Set<Subject> actualPrereq = actualSubject.getPrerequisites();
+		Collection<Subject> actualPrereq = actualSubject.getPrerequisites();
 
 		assertEquals(expectedPrereq, actualPrereq);
 
