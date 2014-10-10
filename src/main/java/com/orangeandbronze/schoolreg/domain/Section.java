@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class Section extends Entity {
-	
-	public final static Section DOES_NOT_EXIST = new Section("Does Not Exist", null);
 
 	private final String sectionNumber;
 	private final Subject subject;
@@ -111,5 +109,8 @@ public class Section extends Entity {
 	public String toString() {
 		return sectionNumber + " {" + subject + " " + schedule + "} ";
 	}
+	
+	/** Null Object pattern **/
+	public final static Section NONE = new Section("Does Not Exist", null);
 
 }

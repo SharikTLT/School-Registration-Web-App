@@ -3,6 +3,7 @@ package com.orangeandbronze.schoolreg.dao;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,7 +31,8 @@ public class Dao {
 
 	Dao() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); // load driver class into JVM
+			Class.forName("com.mysql.jdbc.Driver"); // load driver class into
+													// JVM
 		} catch (ClassNotFoundException e) {
 			throw new DataAccessException("Problem while loading JDBC driver.", e);
 		}
@@ -69,8 +71,12 @@ public class Dao {
 	}
 
 	String getSql(String sqlFile) {
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(sqlFile)))) {
-			return br.readLine();
+		try (Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(sqlFile)))) {
+			StringBuilder bldr = new StringBuilder();
+			for (int i = reader.read(); i > 0; i = reader.read()) {
+				bldr.append((char) i);
+			}
+			return bldr.toString();
 		} catch (IOException e) {
 			throw new DataAccessException("Problem while trying to read file from classpath.", e);
 		}
@@ -91,22 +97,21 @@ public class Dao {
 		}
 		return instructor;
 	}
-	
+
 	Subject newSubject(long pk, String subjectId, Collection<Subject> prereqs) {
 		Subject subject = new Subject(subjectId, prereqs);
 		setPrimaryKey(subject, pk);
 		return subject;
 	}
-	
+
 	Subject newSubject(long pk, String subjectId) {
 		return newSubject(pk, subjectId, new LinkedList<Subject>());
 	}
-	
+
 	Section newSection(long pk, String sectionNumber, Subject subject, Schedule schedule, Faculty instructor) {
 		Section section = new Section(sectionNumber, subject, schedule, instructor);
 		setPrimaryKey(section, pk);
 		return section;
 	}
-			
 
 }

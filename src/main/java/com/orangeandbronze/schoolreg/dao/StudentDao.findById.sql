@@ -1,5 +1,1 @@
--- fetch student
--- fetch student's enrollments
--- fetch enrollments' sections
--- fetch sections' subject & instructor
--- fetch subjects' prerequisites
+select students.pk as student_pk, students.student_number, enrollments.pk as enrollment_pk, enrollments.enrollment_number, enrollments.term from students inner join enrollments on enrollments.fk_students = students.pk where student_number = ? order by student_pk;

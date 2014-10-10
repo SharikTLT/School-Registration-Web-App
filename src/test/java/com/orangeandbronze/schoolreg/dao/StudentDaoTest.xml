@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dataset SYSTEM "datasets.dtd" >
 <dataset>
+	<students pk="1" student_number="1"/>
+	<students pk="2" student_number="2"/>
+	<students pk="3" student_number="3"/>
+	
+	<enrollments pk="1" enrollment_number="1" fk_students="2" term="Y2012_1ST"/>
+	<enrollments pk="2" enrollment_number="2" fk_students="2" term="Y2012_2ND"/>
+	<enrollments pk="3" enrollment_number="3" fk_students="1" term="Y2012_2ND"/>
+
 </dataset>

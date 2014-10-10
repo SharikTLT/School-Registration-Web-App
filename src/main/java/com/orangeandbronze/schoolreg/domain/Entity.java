@@ -11,7 +11,7 @@ package com.orangeandbronze.schoolreg.domain;
  * Reflection! This is how Hibernate does it. Implement the JDBC DAOs to set and
  * get this field by Reflection.
  **/
-public abstract class Entity {
+public abstract class Entity {	
 
 	/** Should be set by reflection. Default to zero. **/
 	protected final long primaryKey = 0;

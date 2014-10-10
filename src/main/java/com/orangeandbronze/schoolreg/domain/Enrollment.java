@@ -50,7 +50,6 @@ public class Enrollment extends Entity implements Comparable<Enrollment>{
 			throw new MissingPrerequisitesException("Enlisting in " + newSec + " but lacking prerequisite(s).");
 		}
 		sections.add(newSec);
-		
 	}
 
 	@Override
@@ -58,8 +57,32 @@ public class Enrollment extends Entity implements Comparable<Enrollment>{
 	public int compareTo(Enrollment other) {
 		return this.term.compareTo(other.term);
 	}
-	
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + enrollmentNumber;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Enrollment other = (Enrollment) obj;
+		if (enrollmentNumber != other.enrollmentNumber)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Enrollment [enrollmentNumber=" + enrollmentNumber + "]";
+	}
 
 }

@@ -129,34 +129,6 @@ INSERT INTO `sections` VALUES (1,'AAA111',3,0,'MTH AM10'),(2,'BBB222',6,0,'TBA')
 UNLOCK TABLES;
 
 --
--- Table structure for table `student_enrollments`
---
-
-DROP TABLE IF EXISTS `student_enrollments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `student_enrollments` (
-  `pk` int(11) NOT NULL,
-  `fk_student` int(11) DEFAULT NULL,
-  `fk_enrollment` int(11) DEFAULT NULL,
-  PRIMARY KEY (`pk`),
-  KEY `fk_student` (`fk_student`),
-  KEY `fk_enrollment` (`fk_enrollment`),
-  CONSTRAINT `student_enrollments_ibfk_1` FOREIGN KEY (`fk_student`) REFERENCES `students` (`pk`),
-  CONSTRAINT `student_enrollments_ibfk_2` FOREIGN KEY (`fk_enrollment`) REFERENCES `enrollments` (`pk`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `student_enrollments`
---
-
-LOCK TABLES `student_enrollments` WRITE;
-/*!40000 ALTER TABLE `student_enrollments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `student_enrollments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `students`
 --
 

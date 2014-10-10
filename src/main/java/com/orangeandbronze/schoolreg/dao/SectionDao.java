@@ -21,9 +21,9 @@ public class SectionDao extends Dao {
 	 **/
 	public Section findById(String sectionNumber) {
 
-		String sql = getSql("SectionDao.getById.sql");
+		String sql = getSql("SectionDao.findById.sql");
 
-		Section section = null;
+		Section section = Section.NONE;
 
 		try (Connection conn = getConnection()) {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -63,13 +63,12 @@ public class SectionDao extends Dao {
 		}
 
 		return section;
-
 	}
 
 	/** Does not get prerequisites. **/
 	public Collection<Section> findAll() {
 
-		String sql = getSql("SectionDao.getAll.sql");
+		String sql = getSql("SectionDao.findAll.sql");
 
 		final Collection<Section> sections = new LinkedList<>();
 		Section currentSection = null;

@@ -23,8 +23,6 @@ public class SectionDaoTest extends DaoTest {
 		super("SectionDaoTest.xml");
 	}
 
-	
-
 	public void testGetAll() {
 		final Subject math11 = new Subject("MATH11");
 		final Subject math14 = new Subject("MATH14");

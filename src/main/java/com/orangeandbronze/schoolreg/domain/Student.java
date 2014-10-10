@@ -8,15 +8,15 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class Student extends Entity {
-	
+
 	private final Integer studentNumber;
-	
+
 	private final SortedSet<Enrollment> enrollments = new TreeSet<>();
 
 	public Student(Integer studentNumber) {
 		this.studentNumber = studentNumber;
 	}
-	
+
 	public Student(Integer studentNumber, Collection<Enrollment> enrollments) {
 		this.studentNumber = studentNumber;
 		this.enrollments.addAll(enrollments);
@@ -26,12 +26,29 @@ public class Student extends Entity {
 		return studentNumber;
 	}
 
-	Set<Enrollment> getEnrollments() {
-		return new HashSet<>(enrollments);
+	public Set<Enrollment> getEnrollments() {
+		return new TreeSet<>(enrollments);
 	}
-	
+
 	void add(Enrollment e) {
-		enrollments.add(e);
+		if (e == null) {
+			throw new IllegalArgumentException("Parameter was null");
+		}
+		if (this.equals(e.getStudent())) {
+			enrollments.add(e);
+		} else {
+			throw new IllegalArgumentException("Wrong Student: Tried to add Enrollment " + e + " to Student " + this
+					+ " but the Student of the Enrollment was " + e.getStudent());
+		}
+	}
+
+	void add(Collection<Enrollment> enrollments) {
+		if (enrollments == null) {
+			throw new IllegalArgumentException("Parameter was null");
+		}
+		for (Enrollment e : enrollments) {
+			add(e);
+		}
 	}
 
 	Collection<Enrollment> getPreviousEnrollmentsTo(Enrollment e) {
@@ -42,7 +59,37 @@ public class Student extends Entity {
 		Collection<Enrollment> prevEnrollments = getPreviousEnrollmentsTo(currentEnrollment);
 		return newSec.hasAllPrerequisitesIn(prevEnrollments);
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((studentNumber == null) ? 0 : studentNumber.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Student other = (Student) obj;
+		if (studentNumber == null) {
+			if (other.studentNumber != null)
+				return false;
+		} else if (!studentNumber.equals(other.studentNumber))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Student [studentNumber=" + studentNumber + "]";
+	}
+
+	public static final Student NONE = new Student(null);
 
 }
