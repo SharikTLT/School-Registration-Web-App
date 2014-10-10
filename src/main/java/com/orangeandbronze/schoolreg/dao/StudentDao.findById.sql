@@ -1,0 +1,5 @@
+-- fetch student
+-- fetch student's enrollments
+-- fetch enrollments' sections
+-- fetch sections' subject & instructor
+-- fetch subjects' prerequisites

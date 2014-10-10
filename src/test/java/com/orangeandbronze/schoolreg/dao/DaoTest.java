@@ -1,21 +1,31 @@
 package com.orangeandbronze.schoolreg.dao;
 
-import static org.junit.Assert.*;
+import org.dbunit.DBTestCase;
+import org.dbunit.PropertiesBasedJdbcDatabaseTester;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 
-import org.junit.Test;
 
-import com.orangeandbronze.schoolreg.domain.Entity;
-import com.orangeandbronze.schoolreg.domain.Faculty;
 
-public class DaoTest {
+abstract class DaoTest extends DBTestCase {
 	
-	@Test
-	public void getPrimaryKey() {
-		Dao dao = new Dao() {};
-		Entity entity = new Faculty(500);
-		assertEquals(new Long(0), dao.getPrimaryKey(entity));
-		dao.setPrimaryKey(entity, 1000);
-		assertEquals(new Long(1000), dao.getPrimaryKey(entity));		
+	private final String datasetFilename;
+	
+	DaoTest(String datasetFilename) {
+		this.datasetFilename = datasetFilename;
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "com.mysql.jdbc.Driver");
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:mysql://localhost:3306/school_registration");
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "root");
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "");
 	}
+	
+	@Override
+	protected IDataSet getDataSet() throws Exception {
+		FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
+		builder.setDtdMetadata(false);
+		return builder.build(getClass().getResourceAsStream(datasetFilename));
+	}
+	
+
 
 }

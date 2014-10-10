@@ -17,21 +17,13 @@ import com.orangeandbronze.schoolreg.domain.Schedule;
 import com.orangeandbronze.schoolreg.domain.Section;
 import com.orangeandbronze.schoolreg.domain.Subject;
 
-public class SectionDaoTest extends DBTestCase {
-
+public class SectionDaoTest extends DaoTest {
+	
 	public SectionDaoTest() {
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "com.mysql.jdbc.Driver");
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:mysql://localhost:3306/school_registration");
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "root");
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "");
+		super("SectionDaoTest.xml");
 	}
 
-	@Override
-	protected IDataSet getDataSet() throws Exception {
-		FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
-		builder.setDtdMetadata(false);
-		return builder.build(getClass().getResourceAsStream("SectionDaoTest.xml"));
-	}
+	
 
 	public void testGetAll() {
 		final Subject math11 = new Subject("MATH11");
