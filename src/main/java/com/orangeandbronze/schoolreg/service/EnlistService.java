@@ -25,7 +25,7 @@ public class EnlistService {
 	private EnrollmentDao enrollmentDao = new MockEnrollmentDao(); // TODO When real Dao is implemented, replace this with real Dao
 	
 	public Collection<Section> getAllSections() {
-		return sectionDao.getAll();
+		return sectionDao.findAll();
 	}
 
 	/**
@@ -41,12 +41,12 @@ public class EnlistService {
 	 */
 	public EnlistmentResult enlistSections(Integer studentNumber, String[] sectionNumbers) {
 		// Fetch domain objects from DB
-		Student student = studentDao.getById(studentNumber);
+		Student student = studentDao.findById(studentNumber);
 		Section[] sections = sectionNumbers != null ? new Section[sectionNumbers.length] : new Section[0];
 		for (int i = 0; i < sections.length; i++) {
-			sections[i] = sectionDao.getById(sectionNumbers[i]);
+			sections[i] = sectionDao.findById(sectionNumbers[i]);
 		}
-		Enrollment enrollment = enrollmentDao.getBy(student, Term.getCurrent());
+		Enrollment enrollment = enrollmentDao.findBy(student, Term.getCurrent());
 
 		// delegate work to domain model
 		Set<Section> successfullyEnlisted = new HashSet<>();

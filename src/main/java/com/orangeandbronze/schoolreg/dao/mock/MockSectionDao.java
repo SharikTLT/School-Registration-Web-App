@@ -24,11 +24,11 @@ public class MockSectionDao extends SectionDao {
 		}
 	};
 
-	public Section getById(String sectionNumber) {
+	public Section findById(String sectionNumber) {
 		return allSections.get(sectionNumber);
 	}
 
-	public Set<Section> getAll() {
+	public Set<Section> findAll() {
 		return new HashSet<Section>(allSections.values());
 	}
 }

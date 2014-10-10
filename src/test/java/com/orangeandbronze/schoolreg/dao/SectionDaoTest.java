@@ -55,7 +55,7 @@ public class SectionDaoTest extends DBTestCase {
 			}
 		};
 		SectionDao dao = new SectionDao();
-		Collection<Section> actual = new HashSet<>(dao.getAll());
+		Collection<Section> actual = new HashSet<>(dao.findAll());
 		assertEquals(expectedSections, actual);
 		
 //		assertThat(
@@ -88,7 +88,7 @@ public class SectionDaoTest extends DBTestCase {
 
 	public void testGetByIdSubjectNoPrerequisites() {
 		SectionDao dao = new SectionDao();
-		Section actual = dao.getById("BBB222");
+		Section actual = dao.findById("BBB222");
 		Section expected = new Section("BBB222", new Subject("COM1"));
 		assertEquals(expected, actual);
 		assertEquals(expected.getSubject(), actual.getSubject());
@@ -102,7 +102,7 @@ public class SectionDaoTest extends DBTestCase {
 	 **/
 	public void testGetByIdSubjectHasPrerequisites() {
 		SectionDao dao = new SectionDao();
-		Section actual = dao.getById("AAA111");
+		Section actual = dao.findById("AAA111");
 		final Subject math11 = new Subject("MATH11");
 		final Subject math14 = new Subject("MATH14");
 		final Collection<Subject> expectedPrereq = new LinkedList<Subject>() {

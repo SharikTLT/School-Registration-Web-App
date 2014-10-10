@@ -19,7 +19,7 @@ public class SectionDao extends Dao {
 	 * prerequisites of prerequisites... that's beyond my powers of SQL. Anyone,
 	 * none of the use cases require beyond first-level prerequisties.
 	 **/
-	public Section getById(String sectionNumber) {
+	public Section findById(String sectionNumber) {
 
 		String sql = getSql("SectionDao.getById.sql");
 
@@ -67,7 +67,7 @@ public class SectionDao extends Dao {
 	}
 
 	/** Does not get prerequisites. **/
-	public Collection<Section> getAll() {
+	public Collection<Section> findAll() {
 
 		String sql = getSql("SectionDao.getAll.sql");
 

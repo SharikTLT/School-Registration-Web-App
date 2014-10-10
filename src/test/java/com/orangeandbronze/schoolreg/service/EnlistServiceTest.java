@@ -52,16 +52,16 @@ public class EnlistServiceTest {
 		
 		/* Mock the daos */
 		StudentDao studentDao = mock(StudentDao.class);
-		when(studentDao.getById(studentNumber)).thenReturn(student);
+		when(studentDao.findById(studentNumber)).thenReturn(student);
 		SectionDao sectionDao = mock(SectionDao.class);
-		when(sectionDao.getById(sectionNumbers[0])).thenReturn(aaa111);
-		when(sectionDao.getById(sectionNumbers[1])).thenReturn(bbb222);
-		when(sectionDao.getById(sectionNumbers[2])).thenReturn(ccc333);
-		when(sectionDao.getById(sectionNumbers[3])).thenReturn(ddd444);
-		when(sectionDao.getById(sectionNumbers[4])).thenReturn(eee555);
+		when(sectionDao.findById(sectionNumbers[0])).thenReturn(aaa111);
+		when(sectionDao.findById(sectionNumbers[1])).thenReturn(bbb222);
+		when(sectionDao.findById(sectionNumbers[2])).thenReturn(ccc333);
+		when(sectionDao.findById(sectionNumbers[3])).thenReturn(ddd444);
+		when(sectionDao.findById(sectionNumbers[4])).thenReturn(eee555);
 		EnrollmentDao enrollmentDao = mock(EnrollmentDao.class);
-		when(enrollmentDao.getBy(student, Term.getCurrent())).thenReturn(currentEnrollment);
-		when(enrollmentDao.getBy(student, Term.Y2012_1ST)).thenReturn(previousEnrollment);
+		when(enrollmentDao.findBy(student, Term.getCurrent())).thenReturn(currentEnrollment);
+		when(enrollmentDao.findBy(student, Term.Y2012_1ST)).thenReturn(previousEnrollment);
 		
 		EnlistService service = new EnlistService();
 		service.setStudentDao(studentDao);

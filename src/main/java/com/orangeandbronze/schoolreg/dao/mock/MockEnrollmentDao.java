@@ -7,7 +7,7 @@ import com.orangeandbronze.schoolreg.domain.Term;
 
 public class MockEnrollmentDao extends EnrollmentDao {
 	
-	public Enrollment getBy(Student student, Term term) {
+	public Enrollment findBy(Student student, Term term) {
 		return new Enrollment(777, student, term); 
 	}
 
