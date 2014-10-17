@@ -13,12 +13,12 @@
 	<subject_prerequisites pk="1" fk_subject="3" fk_prerequisite="1"/>
 	<subject_prerequisites pk="2" fk_subject="3" fk_prerequisite="2"/>	
     
-    <sections pk="2"  section_number="BBB222"  fk_subject="6"   fk_faculty="0"   schedule="TBA"/>
-    <sections pk="3"  section_number="CCC333"  fk_subject="5"   fk_faculty="0"   schedule="TBA"/>
-    <sections pk="4"  section_number="DDD444"  fk_subject="7"   fk_faculty="0"   schedule="TF PM4"/>
-    <sections pk="5"  section_number="EEE555"  fk_subject="5"   fk_faculty="0"   schedule="TBA"/>
-    <sections pk="6"  section_number="GGG777"  fk_subject="1"   fk_faculty="0"   schedule="TBA"/>
-    <sections pk="7"  section_number="ZZZ000"  fk_subject="4"   fk_faculty="0"   schedule="TF PM4"/>
-	<sections pk="8"  section_number="AAA111"  fk_subject="3"   fk_faculty="0"   schedule="MTH AM10"/>
+    <sections pk="2"  section_number="BBB222"  fk_subject="6" term="2014 1st"   fk_faculty="0"   schedule="TBA"/>
+    <sections pk="3"  section_number="CCC333"  fk_subject="5" term="2014 1st"   fk_faculty="0"   schedule="TBA"/>
+    <sections pk="4"  section_number="DDD444"  fk_subject="7" term="2014 1st"  fk_faculty="0"   schedule="TF PM4"/>
+    <sections pk="5"  section_number="EEE555"  fk_subject="5"  term="2014 1st"  fk_faculty="0"   schedule="TBA"/>
+    <sections pk="6"  section_number="GGG777"  fk_subject="1"  term="2012 1st"   fk_faculty="0"  schedule="TBA"/>
+    <sections pk="7"  section_number="ZZZ000"  fk_subject="4" term="2014 1st"   fk_faculty="0"   schedule="TF PM4"/>
+	<sections pk="8"  section_number="AAA111"  fk_subject="3" term="2014 1st"  fk_faculty="0"   schedule="MTH AM10" />
 
 </dataset>

@@ -1,11 +1,12 @@
 <!ELEMENT dataset (
-    enrollment_sections* |
-    enrollments* |
-    faculty* |
-    sections* |
-    students* |
-    subject_prerequisites* |
-    subjects*)>
+    enrollment_sections*,
+    enrollments*,
+    faculty*,
+    sections*,
+    students*,
+    subject_prerequisites*,
+    subjects*,
+    terms*)>
 
 <!ELEMENT enrollment_sections EMPTY>
 <!ATTLIST enrollment_sections
@@ -33,6 +34,7 @@
     pk CDATA #REQUIRED
     section_number CDATA #IMPLIED
     fk_subject CDATA #IMPLIED
+    term CDATA #IMPLIED
     fk_faculty CDATA #IMPLIED
     schedule CDATA #IMPLIED
 >
@@ -54,5 +56,10 @@
 <!ATTLIST subjects
     pk CDATA #REQUIRED
     subject_id CDATA #IMPLIED
+>
+
+<!ELEMENT terms EMPTY>
+<!ATTLIST terms
+    term CDATA #REQUIRED
 >
 

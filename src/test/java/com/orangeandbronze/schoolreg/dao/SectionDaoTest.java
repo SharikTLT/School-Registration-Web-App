@@ -6,11 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
-import org.dbunit.DBTestCase;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-
 import com.orangeandbronze.schoolreg.domain.Days;
 import com.orangeandbronze.schoolreg.domain.Period;
 import com.orangeandbronze.schoolreg.domain.Schedule;
@@ -35,25 +30,18 @@ public class SectionDaoTest extends DaoTest {
 		final Subject subjWithPrereq = new Subject("MATH53", expectedPrereq);
 		Set<Section> expectedSections = new HashSet<Section>() {
 			{
-				add(new Section("AAA111", subjWithPrereq, new Schedule(Days.MTH, Period.AM10)));
-				add(new Section("BBB222", new Subject("COM1")));
-				add(new Section("CCC333", new Subject("CS11")));
-				add(new Section("DDD444", new Subject("PHILO1"), new Schedule(Days.TF, Period.PM4)));
-				add(new Section("EEE555", new Subject("CS11")));
-				add(new Section("GGG777", new Subject("MATH11")));
-				add(new Section("ZZZ000", new Subject("CHEM11"), new Schedule(Days.TF, Period.PM4)));
+				add(new Section("AAA111", subjWithPrereq, "2014 1st", new Schedule(Days.MTH, Period.AM10)));
+				add(new Section("BBB222", new Subject("COM1"), "2014 1st"));
+				add(new Section("CCC333", new Subject("CS11"), "2014 1st"));
+				add(new Section("DDD444", new Subject("PHILO1"), "2014 1st", new Schedule(Days.TF, Period.PM4)));
+				add(new Section("EEE555", new Subject("CS11"), "2014 1st"));
+				add(new Section("GGG777", new Subject("MATH11"), "2012 1st"));
+				add(new Section("ZZZ000", new Subject("CHEM11"), "2014 1st", new Schedule(Days.TF, Period.PM4)));
 			}
 		};
 		SectionDao dao = new SectionDao();
 		Collection<Section> actual = new HashSet<>(dao.findAll());
 		assertEquals(expectedSections, actual);
-		
-//		assertThat(
-//				actual,
-//				containsInAnyOrder(new Section("AAA111", subjWithPrereq, new Schedule(Days.MTH, Period.AM10)), new Section("BBB222", new Subject("COM1")),
-//						new Section("CCC333", new Subject("CS11")), new Section("DDD444", new Subject("PHILO1"), new Schedule(Days.TF, Period.PM4)),
-//						new Section("EEE555", new Subject("CS11")), new Section("GGG777", new Subject("MATH11")), new Section("ZZZ000", new Subject("CHEM11"),
-//								new Schedule(Days.TF, Period.PM4))));
 
 		Iterator<Section> iActual = actual.iterator();
 		Iterator<Section> iExpected = expectedSections.iterator();
@@ -79,7 +67,7 @@ public class SectionDaoTest extends DaoTest {
 	public void testGetByIdSubjectNoPrerequisites() {
 		SectionDao dao = new SectionDao();
 		Section actual = dao.findById("BBB222");
-		Section expected = new Section("BBB222", new Subject("COM1"));
+		Section expected = new Section("BBB222", new Subject("COM1"), "2014 1st");
 		assertEquals(expected, actual);
 		assertEquals(expected.getSubject(), actual.getSubject());
 		assertEquals(expected.getInstructor(), actual.getInstructor());
@@ -102,7 +90,7 @@ public class SectionDaoTest extends DaoTest {
 			}
 		};
 		Subject expectedSubject = new Subject("MATH53", expectedPrereq);
-		Section expected = new Section("AAA111", expectedSubject, new Schedule(Days.MTH, Period.AM10));
+		Section expected = new Section("AAA111", expectedSubject, "2014 1st", new Schedule(Days.MTH, Period.AM10));
 		assertEquals(expected, actual);
 		assertEquals(expected.getInstructor(), actual.getInstructor());
 		assertEquals(expected.getSchedule(), actual.getSchedule());

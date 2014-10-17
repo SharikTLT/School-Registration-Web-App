@@ -35,6 +35,7 @@ public class SectionDao extends Dao {
 			long fkFaculty = 0;
 			String scheduleString = null;
 			String subjectId = null;
+			String term = null;
 
 			Faculty instructor = null;
 
@@ -56,7 +57,7 @@ public class SectionDao extends Dao {
 			Subject subject = newSubject(fkSubject, subjectId, prereqs);
 
 			Schedule schedule = newSchedule(scheduleString);
-			section = newSection(pk, sectionNumber, subject, schedule, instructor);
+			section = newSection(pk, sectionNumber, subject, term, schedule, instructor);
 
 		} catch (SQLException e) {
 			handleException(section, e);
@@ -84,6 +85,7 @@ public class SectionDao extends Dao {
 			String subjectId = null;
 			String sectionNumber = null;
 			Subject subject = null;
+			String term = null;
 			Schedule schedule = null;
 			Faculty instructor = null;
 			int facultyNumber = 0;
@@ -94,13 +96,17 @@ public class SectionDao extends Dao {
 			while (rs.next()) {
 				pk = rs.getInt("pk");
 
-				if (pk != previousPk && previousPk != 0) { // previous row was last row in a series of rows w/ same pk
-					createSubjectSectionAndAddToCollection(sections, pk, fkSubject, subjectId, sectionNumber, schedule, instructor, prereqs);
+				if (pk != previousPk && previousPk != 0) { // previous row was
+															// last row in a
+															// series of rows w/
+															// same pk
+					createSubjectSectionAndAddToCollection(sections, pk, fkSubject, subjectId, sectionNumber, term, schedule, instructor, prereqs);
 				}
 
 				if (pk != previousPk) { // new Section
 					sectionNumber = rs.getString("section_number");
 					fkSubject = rs.getInt("fk_subject");
+					term = rs.getString("term");
 					fkFaculty = rs.getInt("fk_faculty");
 					scheduleString = rs.getString("schedule");
 					subjectId = rs.getString("subject_id");
@@ -116,7 +122,7 @@ public class SectionDao extends Dao {
 
 				previousPk = pk;
 			}
-			createSubjectSectionAndAddToCollection(sections, pk, fkSubject, subjectId, sectionNumber, schedule, instructor, prereqs);
+			createSubjectSectionAndAddToCollection(sections, pk, fkSubject, subjectId, sectionNumber, term, schedule, instructor, prereqs);
 
 		} catch (SQLException e) {
 			handleException(currentSection, e);
@@ -132,11 +138,9 @@ public class SectionDao extends Dao {
 	}
 
 	private void createSubjectSectionAndAddToCollection(Collection<Section> sections, long pk, long fkSubject, String subjectId, String sectionNumber,
-			Schedule schedule, Faculty instructor, Collection<Subject> prereqs) {
-		Section currentSection;
-		Subject subject;
-		subject = newSubject(fkSubject, subjectId, prereqs);
-		currentSection = newSection(pk, sectionNumber, subject, schedule, instructor);
+			String term, Schedule schedule, Faculty instructor, Collection<Subject> prereqs) {
+		Subject subject = newSubject(fkSubject, subjectId, prereqs);
+		Section currentSection = newSection(pk, sectionNumber, subject, term, schedule, instructor);
 		sections.add(currentSection);
 	}
 

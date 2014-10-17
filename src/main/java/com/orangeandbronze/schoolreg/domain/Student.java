@@ -1,5 +1,7 @@
 package com.orangeandbronze.schoolreg.domain;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,13 +29,11 @@ public class Student extends Entity {
 	}
 
 	public Set<Enrollment> getEnrollments() {
-		return new TreeSet<>(enrollments);
+		return new HashSet<>(enrollments);
 	}
 
 	void add(Enrollment e) {
-		if (e == null) {
-			throw new IllegalArgumentException("Parameter was null");
-		}
+		notNull(e);
 		if (this.equals(e.getStudent())) {
 			enrollments.add(e);
 		} else {
@@ -43,19 +43,19 @@ public class Student extends Entity {
 	}
 
 	void add(Collection<Enrollment> enrollments) {
-		if (enrollments == null) {
-			throw new IllegalArgumentException("Parameter was null");
-		}
+		notNull(enrollments);
 		for (Enrollment e : enrollments) {
 			add(e);
 		}
 	}
 
 	Collection<Enrollment> getPreviousEnrollmentsTo(Enrollment e) {
+		notNull(e);
 		return new ArrayList(enrollments.headSet(e));
 	}
 
 	public boolean hasTakenPrerequisites(Section newSec, Enrollment currentEnrollment) {
+		notNull(newSec); notNull(currentEnrollment);
 		Collection<Enrollment> prevEnrollments = getPreviousEnrollmentsTo(currentEnrollment);
 		return newSec.hasAllPrerequisitesIn(prevEnrollments);
 	}

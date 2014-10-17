@@ -16,7 +16,6 @@ import com.orangeandbronze.schoolreg.domain.Enrollment;
 import com.orangeandbronze.schoolreg.domain.MissingPrerequisitesException;
 import com.orangeandbronze.schoolreg.domain.Section;
 import com.orangeandbronze.schoolreg.domain.Student;
-import com.orangeandbronze.schoolreg.domain.Term;
 
 public class EnlistService {
 
@@ -46,7 +45,7 @@ public class EnlistService {
 		for (int i = 0; i < sections.length; i++) {
 			sections[i] = sectionDao.findById(sectionNumbers[i]);
 		}
-		Enrollment enrollment = enrollmentDao.findBy(student, Term.getCurrent());
+		Enrollment enrollment = enrollmentDao.findLatestBy(student);
 
 		// delegate work to domain model
 		Set<Section> successfullyEnlisted = new HashSet<>();

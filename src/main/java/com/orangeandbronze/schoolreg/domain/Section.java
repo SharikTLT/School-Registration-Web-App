@@ -7,23 +7,25 @@ public class Section extends Entity {
 
 	private final String sectionNumber;
 	private final Subject subject;
+	private final String term;
 	private Faculty instructor;
 	private Schedule schedule;
 
-	public Section(String sectionNumber, Subject subject) {
+	public Section(String sectionNumber, Subject subject, String term) {
 		this.sectionNumber = sectionNumber;
 		this.subject = subject;
+		this.term = term;
 		this.schedule = Schedule.TBA;
 		this.instructor = Faculty.TBA;
 	}
 
-	public Section(String sectionNumber, Subject subject, Schedule schedule) {
-		this(sectionNumber, subject);
+	public Section(String sectionNumber, Subject subject, String term, Schedule schedule) {
+		this(sectionNumber, subject, term);
 		this.schedule = schedule;
 	}
 	
-	public Section(String sectionNumber, Subject subject, Schedule schedule, Faculty instructor) {
-		this(sectionNumber, subject, schedule);
+	public Section(String sectionNumber, Subject subject, String term, Schedule schedule, Faculty instructor) {
+		this(sectionNumber, subject, term, schedule);
 		this.instructor = instructor;
 	}
 
@@ -111,6 +113,6 @@ public class Section extends Entity {
 	}
 	
 	/** Null Object pattern **/
-	public final static Section NONE = new Section("Does Not Exist", null);
+	public final static Section NONE = new Section("Does Not Exist", null, null);
 
 }

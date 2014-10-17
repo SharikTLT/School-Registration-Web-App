@@ -108,8 +108,8 @@ public class Dao {
 		return newSubject(pk, subjectId, new LinkedList<Subject>());
 	}
 
-	Section newSection(long pk, String sectionNumber, Subject subject, Schedule schedule, Faculty instructor) {
-		Section section = new Section(sectionNumber, subject, schedule, instructor);
+	Section newSection(long pk, String sectionNumber, Subject subject, String term, Schedule schedule, Faculty instructor) {
+		Section section = new Section(sectionNumber, subject, term, schedule, instructor);
 		setPrimaryKey(section, pk);
 		return section;
 	}

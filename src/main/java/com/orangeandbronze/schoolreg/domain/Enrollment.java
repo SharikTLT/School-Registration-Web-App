@@ -9,10 +9,10 @@ public class Enrollment extends Entity implements Comparable<Enrollment>{
 	
 	private final int enrollmentNumber;	
 	private final Student student;
-	private final Term term;
+	private final String term;
 	private final Set<Section> sections = new HashSet<>();
 	
-	public Enrollment(int enrollmentNumber, Student student, Term term) {
+	public Enrollment(int enrollmentNumber, Student student, String term) {
 		this.enrollmentNumber = enrollmentNumber;
 		this.student = student;
 		this.term = term;
@@ -21,7 +21,7 @@ public class Enrollment extends Entity implements Comparable<Enrollment>{
 		}
 	}
 	
-	public Enrollment(int enrollmentNumber, Student student, Term term, Collection<Section> enlistedSections) {
+	public Enrollment(int enrollmentNumber, Student student, String term, Collection<Section> enlistedSections) {
 		this(enrollmentNumber, student, term);
 		sections.addAll(enlistedSections);
 	}
@@ -82,7 +82,7 @@ public class Enrollment extends Entity implements Comparable<Enrollment>{
 
 	@Override
 	public String toString() {
-		return "Enrollment [enrollmentNumber=" + enrollmentNumber + "]";
+		return "Enrollment# " + enrollmentNumber;
 	}
 
 }

@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import com.orangeandbronze.schoolreg.domain.Enrollment;
 import com.orangeandbronze.schoolreg.domain.Student;
-import com.orangeandbronze.schoolreg.domain.Term;
 
 public class StudentDao extends Dao {
 
@@ -26,7 +25,7 @@ public class StudentDao extends Dao {
 					student = new Student(rs.getInt("student_number"));
 					setPrimaryKey(student, rs.getLong("student_pk"));
 				}
-				Enrollment e = new Enrollment(rs.getInt("enrollment_number"), student, Term.valueOf(rs.getString("term")));
+				Enrollment e = new Enrollment(rs.getInt("enrollment_number"), student, rs.getString("term"));
 				setPrimaryKey(e, rs.getLong("enrollment_pk"));
 			}
 		} catch (SQLException e) {
