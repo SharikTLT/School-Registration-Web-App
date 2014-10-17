@@ -10,7 +10,6 @@
 
 <!ELEMENT enrollment_sections EMPTY>
 <!ATTLIST enrollment_sections
-    pk CDATA #REQUIRED
     fk_enrollment CDATA #IMPLIED
     fk_sections CDATA #IMPLIED
 >
@@ -47,7 +46,6 @@
 
 <!ELEMENT subject_prerequisites EMPTY>
 <!ATTLIST subject_prerequisites
-    pk CDATA #REQUIRED
     fk_subject CDATA #IMPLIED
     fk_prerequisite CDATA #IMPLIED
 >

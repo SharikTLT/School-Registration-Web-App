@@ -10,8 +10,14 @@
 	<subjects pk="6"  subject_id="COM1"/>
 	<subjects pk="7"  subject_id="PHILO1"/>
 
-	<subject_prerequisites pk="1" fk_subject="3" fk_prerequisite="1"/>
-	<subject_prerequisites pk="2" fk_subject="3" fk_prerequisite="2"/>	
+	<subject_prerequisites fk_subject="3" fk_prerequisite="1"/>
+	<subject_prerequisites fk_subject="3" fk_prerequisite="2"/>	
+	
+	<terms term="2012 1st"/>
+	<terms term="2012 2nd"/>
+	<terms term="2013 1st"/>
+	<terms term="2013 2nd"/>
+	<terms term="2014 1st"/>
     
     <sections pk="2"  section_number="BBB222"  fk_subject="6" term="2014 1st"   fk_faculty="0"   schedule="TBA"/>
     <sections pk="3"  section_number="CCC333"  fk_subject="5" term="2014 1st"   fk_faculty="0"   schedule="TBA"/>
