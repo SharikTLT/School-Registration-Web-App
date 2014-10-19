@@ -1,6 +1,7 @@
 *.class
 *.jar
 *.war
+*.bak
 .classpath
 .project
 .settings/
