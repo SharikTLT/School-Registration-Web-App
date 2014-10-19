@@ -28,7 +28,7 @@ public class Student extends Entity {
 		return studentNumber;
 	}
 
-	public Set<Enrollment> getEnrollments() {
+	public Collection<Enrollment> getEnrollments() {
 		return new HashSet<>(enrollments);
 	}
 

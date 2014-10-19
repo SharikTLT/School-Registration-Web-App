@@ -7,6 +7,9 @@
 	
 	<terms term="2012 1st"/>
 	<terms term="2012 2nd"/>
+	<terms term="2013 1st"/>
+	<terms term="2013 2nd"/>
+	<terms term="2014 1st"/>
 	
 	<enrollments pk="1" enrollment_number="1" fk_students="2" term="2012 1st"/>
 	<enrollments pk="2" enrollment_number="2" fk_students="2" term="2012 2nd"/>

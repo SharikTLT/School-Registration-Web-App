@@ -84,7 +84,6 @@ public class SectionDao extends Dao {
 			String scheduleString = null;
 			String subjectId = null;
 			String sectionNumber = null;
-			Subject subject = null;
 			String term = null;
 			Schedule schedule = null;
 			Faculty instructor = null;
