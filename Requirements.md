@@ -37,8 +37,8 @@
  3. System creates new section.
 
 ##Extensions:
- 1. System detects that a business rule is not being followed.
-  a. System informs user of conflict
+ 1. System detects that a business rule is not being followed.  
+ 	a. System informs user of conflict
 
 ##Business Rules:
  * A section is defined as a combination of a teacher, a subject, a schedule, a section number and a term.
