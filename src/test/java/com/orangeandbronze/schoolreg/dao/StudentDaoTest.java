@@ -23,23 +23,23 @@ public class StudentDaoTest extends DaoTest {
 		Student expStudent = new Student(2);		
 		assertEquals(expStudent, student);
 		
-		Collection<Enrollment> expEnrollments = new LinkedList<>();		
+		Collection<Enrollment> expEnrollments = new HashSet<>();		
 		
 		final Subject math11 = new Subject("MATH 11");
 		final Subject math14 = new Subject("MATH 14");
 		Set<Subject> prerequisitesToNewSection = new HashSet<Subject>() {{ add(math11); add(math14); }};
 		Subject math53 = new Subject("MATH 53", prerequisitesToNewSection);
-		Section newSection = new Section("AAA111", math53, "2014 1st");
+		Section sec1 = new Section("AAA111", math53, "2014 1st");
 		
 		Enrollment enroll1 = new Enrollment(1, expStudent, "2012 1st");
-		Section oldSection = new Section("GGG777", math11, "2012 1st");
+		Section sec2 = new Section("GGG777", math11, "2012 1st");
 		
-		Enrollment enroll2 = new Enrollment(2, expStudent, "2014 1st");		
+		Enrollment enroll2 = new Enrollment(2, expStudent, "2012 2nd");		
 		
 		expEnrollments.add(enroll1);		
 		expEnrollments.add(enroll2);
 		
-		assertEquals(new HashSet<Enrollment>(expEnrollments), new HashSet<Enrollment>(student.getEnrollments()));
+		assertEquals(expEnrollments, new HashSet<Enrollment>(student.getEnrollments()));
 		
 		
 	}

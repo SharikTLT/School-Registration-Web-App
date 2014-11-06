@@ -15,7 +15,6 @@ public class StudentTest {
 		final Enrollment enrollment1 = new Enrollment(1, student, "2012 1st");
 		final Enrollment enrollment2 = new Enrollment(2, student, "2012 2nd");
 		final Enrollment enrollment3 = new Enrollment(3, student, "2013 1st");
-		final Enrollment enrollment4 = new Enrollment(4, student, "2013 2nd");
 		
 		Collection<Enrollment> previous = student.getPreviousEnrollmentsTo(enrollment3);
 		Collection<Enrollment> expected = new ArrayList<Enrollment>() {{ add(enrollment1); add(enrollment2); }};
