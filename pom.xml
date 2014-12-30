@@ -66,5 +66,10 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.concordion</groupId>
+			<artifactId>concordion</artifactId>
+			<version>1.4.6</version>
+		</dependency>
 	</dependencies>
 </project>
