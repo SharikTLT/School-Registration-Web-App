@@ -23,7 +23,7 @@ abstract class DaoTest extends DBTestCase {
 	protected IDataSet getDataSet() throws Exception {
 		FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
 		builder.setDtdMetadata(false);
-		return builder.build(getClass().getResourceAsStream(datasetFilename));
+		return builder.build(getClass().getResourceAsStream('/' + datasetFilename));
 	}
 	
 

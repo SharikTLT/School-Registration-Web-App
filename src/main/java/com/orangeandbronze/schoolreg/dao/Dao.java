@@ -71,9 +71,9 @@ public class Dao {
 	}
 
 	String getSql(String sqlFile) {
-		try (Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(sqlFile)))) {
+		try (Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream('/'+sqlFile)))) {
 			StringBuilder bldr = new StringBuilder();
-			for (int i = reader.read(); i > 0; i = reader.read()) {
+			for (int i = reader.read(); i > 0; i = reader.read()) { 
 				bldr.append((char) i);
 			}
 			return bldr.toString();

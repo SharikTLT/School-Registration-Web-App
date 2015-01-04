@@ -6,24 +6,6 @@
 	<version>0.03.00-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<build>
-		<resources>
-			<resource>
-				<targetPath>${basedir}/target/classes/com/orangeandbronze/schoolreg/dao</targetPath>
-				<directory>${basedir}/src/main/java/com/orangeandbronze/schoolreg/dao</directory>
-				<includes>
-					<include>*.sql</include>
-				</includes>
-			</resource>
-		</resources>
-		<testResources>
-			<testResource>
-				<targetPath>${basedir}/target/test-classes/com/orangeandbronze/schoolreg/dao</targetPath>
-				<directory>${basedir}/src/test/java/com/orangeandbronze/schoolreg/dao</directory>
-				<includes>
-					<include>*.xml</include>
-				</includes>
-			</testResource>
-		</testResources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
