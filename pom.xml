@@ -24,12 +24,17 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<excludedGroups>com.orangeandbronze.test.IntegrationTest</excludedGroups>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.18.1</version>
 				<configuration>
-					<includes>
-						<include>**/dao/*.java</include>
-					</includes>
+					<groups>com.orangeandbronze.test.IntegrationTest</groups>
 				</configuration>
 				<executions>
 					<execution>
@@ -37,17 +42,13 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
+						<configuration>
+							<includes>
+								<include>**/*.class</include>
+							</includes>
+						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
-				<configuration>
-					<excludes>
-						<exclude>**/dao/*.java</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -6,12 +6,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
+import org.junit.experimental.categories.Category;
+
 import com.orangeandbronze.schoolreg.domain.Days;
 import com.orangeandbronze.schoolreg.domain.Period;
 import com.orangeandbronze.schoolreg.domain.Schedule;
 import com.orangeandbronze.schoolreg.domain.Section;
 import com.orangeandbronze.schoolreg.domain.Subject;
 
+@Category(com.orangeandbronze.test.IntegrationTest.class)
 public class SectionDaoTest extends DaoTest {
 	
 	public SectionDaoTest() {
