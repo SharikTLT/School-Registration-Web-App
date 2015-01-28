@@ -5,6 +5,10 @@
 	<artifactId>SchoolReg</artifactId>
 	<version>0.03.00-SNAPSHOT</version>
 	<packaging>war</packaging>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 	<build>
 		<plugins>
 			<plugin>
@@ -38,6 +42,12 @@
 						<include>**/*.java</include>
 					</includes>
 					<groups>com.orangeandbronze.test.IntegrationTest</groups>
+					<systemProperties>
+						<property>
+							<name>concordion.output.dir</name>
+							<value>target/specs</value>
+						</property>
+					</systemProperties>
 				</configuration>
 				<executions>
 					<execution>
