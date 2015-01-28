@@ -45,7 +45,7 @@
 					<systemProperties>
 						<property>
 							<name>concordion.output.dir</name>
-							<value>target/specs</value>
+							<value>target</value>
 						</property>
 					</systemProperties>
 				</configuration>
