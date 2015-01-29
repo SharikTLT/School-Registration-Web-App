@@ -1,5 +1,8 @@
 package spec;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,8 +11,6 @@ import java.util.Set;
 import org.concordion.integration.junit4.ConcordionRunner;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-
-import static org.mockito.Mockito.*;
 
 import com.orangeandbronze.schoolreg.dao.EnrollmentDao;
 import com.orangeandbronze.schoolreg.dao.SectionDao;
@@ -22,13 +23,14 @@ import com.orangeandbronze.schoolreg.domain.Section;
 import com.orangeandbronze.schoolreg.domain.Student;
 import com.orangeandbronze.schoolreg.domain.Subject;
 import com.orangeandbronze.schoolreg.service.EnlistService;
+import com.orangeandbronze.schoolreg.service.EnlistService.EnlistmentResult;
 import com.orangeandbronze.test.IntegrationTest;
 
 @Category(IntegrationTest.class)
 @RunWith(ConcordionRunner.class)
 public class StudentEnlistsFixture {
 
-	public String enlistAndCheckIfSaved(int studentNumber, String sectionId) {
+	public boolean enlistAndCheckIfSaved(int studentNumber, String sectionId) {
 		EnlistService service = new EnlistService();
 		Student student = new Student(studentNumber);
 		String[] sectionNumbers = { "AAA111", "BBB222", "CCC333", "DDD444", "EEE555" };
@@ -86,8 +88,16 @@ public class StudentEnlistsFixture {
 		service.setSectionDao(sectionDao);
 		service.setEnrollmentDao(enrollmentDao);
 
-		service.enlistSections(studentNumber, sectionId);
-
-		return "AAA111";
+		EnlistmentResult result = service.enlistSections(studentNumber, sectionId);
+		
+		Set<Section> resultSections = result.getSuccessfullyEnlisted();
+		System.out.println(resultSections);
+		for (Section sec : resultSections) {
+			if (sec.getSectionNumber().equals(sectionId)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

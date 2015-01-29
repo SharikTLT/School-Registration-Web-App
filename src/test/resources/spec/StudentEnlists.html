@@ -5,12 +5,12 @@
 <body>
 	<h2>Student Enlists in First Section</h2>
 	<p>
-		When student with student number "<span concordion:set="#studentNumber">456</span>"
-		enlists in section with section ID "<span concordion:set="#sectionId">AAA111</span>",
-		the same section "<span
-			concordion:assertEquals="enlistAndCheckIfSaved(#studentId, #sectionId)">AAA111</span>"
-		should be found to be saved in the student's list of enlisted
-		sections.
+		When student with student number "<span
+			concordion:set="#studentNumber">456</span>" enlists in section with
+		section ID "<span concordion:set="#sectionId">BBB222</span>", <span
+			concordion:assertTrue="enlistAndCheckIfSaved(#studentId, #sectionId)">the
+			same section should be found to be saved in the student's list of
+			enlisted sections</span> .
 	</p>
 </body>
 </html>
