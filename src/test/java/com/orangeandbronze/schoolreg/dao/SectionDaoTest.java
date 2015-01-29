@@ -13,8 +13,9 @@ import com.orangeandbronze.schoolreg.domain.Period;
 import com.orangeandbronze.schoolreg.domain.Schedule;
 import com.orangeandbronze.schoolreg.domain.Section;
 import com.orangeandbronze.schoolreg.domain.Subject;
+import com.orangeandbronze.test.IntegrationTest;
 
-@Category(com.orangeandbronze.test.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class SectionDaoTest extends DaoTest {
 	
 	public SectionDaoTest() {
