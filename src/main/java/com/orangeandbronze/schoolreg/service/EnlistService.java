@@ -38,7 +38,7 @@ public class EnlistService {
 	 *         enlisted, and which were not. Those that were not include the
 	 *         reason why they failed to enlist.
 	 */
-	public EnlistmentResult enlistSections(Integer studentNumber, String[] sectionNumbers) {
+	public EnlistmentResult enlistSections(Integer studentNumber, String... sectionNumbers) {
 		// Fetch domain objects from DB
 		Student student = studentDao.findById(studentNumber);
 		Section[] sections = sectionNumbers != null ? new Section[sectionNumbers.length] : new Section[0];
@@ -135,15 +135,15 @@ public class EnlistService {
 
 	}
 
-	void setStudentDao(StudentDao studentDao) {
+	public void setStudentDao(StudentDao studentDao) {
 		this.studentDao = studentDao;
 	}
 
-	void setSectionDao(SectionDao sectionDao) {
+	public void setSectionDao(SectionDao sectionDao) {
 		this.sectionDao = sectionDao;
 	}
 
-	void setEnrollmentDao(EnrollmentDao enrollmentDao) {
+	public void setEnrollmentDao(EnrollmentDao enrollmentDao) {
 		this.enrollmentDao = enrollmentDao;
 	}
 	
