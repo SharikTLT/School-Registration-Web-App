@@ -30,6 +30,8 @@ import com.orangeandbronze.test.IntegrationTest;
 public class StudentEnlistsFixture {
 
 	public Collection enlistAndCheckIfSaved(int studentNumber, String sectionId) throws Exception {
+		
+		// DB setup using DBUnit
 		Connection jdbcConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/school_registration?sessionVariables=FOREIGN_KEY_CHECKS=0", "root", "");
 		IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
 		FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
@@ -40,7 +42,8 @@ public class StudentEnlistsFixture {
 		} finally {
 			connection.close();
 		}
-
+		
+		// Actual test
 		EnlistService service = new EnlistService();
 		EnlistmentResult result = service.enlistSections(studentNumber, sectionId);
 		Set<Section> resultSections = result.getSuccessfullyEnlisted();
