@@ -1,0 +1,39 @@
+<!DOCTYPE dataset SYSTEM "datasets.dtd">
+<dataset>
+	<students pk="1" student_number="1" />
+	<students pk="2" student_number="2" />
+	<students pk="3" student_number="3" />
+
+	<terms term="2012 1st" />
+	<terms term="2012 2nd" />
+	<terms term="2013 1st" />
+	<terms term="2013 2nd" />
+	<terms term="2014 1st" />
+
+	<enrollments pk="1" enrollment_number="1" fk_students="2" term="2012 1st" />
+	<enrollments pk="2" enrollment_number="2" fk_students="2" term="2012 2nd" />
+	<enrollments pk="3" enrollment_number="3" fk_students="1" term="2012 2nd" />
+	<enrollments pk="4" enrollment_number="4" fk_students="1" term="2014 1st" />
+
+	<faculty pk="0" faculty_number="0" />
+
+	<subjects pk="1" subject_id="MATH11" />
+	<subjects pk="2" subject_id="MATH14" />
+	<subjects pk="3" subject_id="MATH53" />
+	<subjects pk="4" subject_id="CHEM11" />
+	<subjects pk="5" subject_id="CS11" />
+	<subjects pk="6" subject_id="COM1" />
+	<subjects pk="7" subject_id="PHILO1" />
+
+	<subject_prerequisites fk_subject="3" fk_prerequisite="1" />
+	<subject_prerequisites fk_subject="3" fk_prerequisite="2" />
+
+	<sections pk="2" section_number="BBB222" fk_subject="6" term="2014 1st" fk_faculty="0" schedule="TBA" />
+	<sections pk="3" section_number="CCC333" fk_subject="5" term="2014 1st" fk_faculty="0" schedule="TBA" />
+	<sections pk="4" section_number="DDD444" fk_subject="7" term="2014 1st" fk_faculty="0" schedule="TF PM4" />
+	<sections pk="5" section_number="EEE555" fk_subject="5" term="2014 1st" fk_faculty="0" schedule="TBA" />
+	<sections pk="6" section_number="GGG777" fk_subject="1" term="2012 1st" fk_faculty="0" schedule="TBA" />
+	<sections pk="7" section_number="ZZZ000" fk_subject="4" term="2014 1st" fk_faculty="0" schedule="TF PM4" />
+	<sections pk="8" section_number="AAA111" fk_subject="3" term="2014 1st" fk_faculty="0" schedule="MTH AM10" />
+
+</dataset>

@@ -46,7 +46,7 @@ public class EnlistService {
 			sections[i] = sectionDao.findById(sectionNumbers[i]);
 		}
 		Enrollment enrollment = enrollmentDao.findLatestBy(student);
-
+		
 		// delegate work to domain model
 		Set<Section> successfullyEnlisted = new HashSet<>();
 		Map<Section, String> failedToEnlist = new HashMap<>();

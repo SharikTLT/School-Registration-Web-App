@@ -132,6 +132,9 @@ public class SectionDao extends Dao {
 
 	void getPrerequisites(ResultSet rs, Collection<Subject> prereqs) throws SQLException {
 		int fkPrerequisite = rs.getInt("fk_prerequisite");
+		if (fkPrerequisite == 0) {
+			return;
+		}
 		Subject prereq = newSubject(fkPrerequisite, rs.getString("prerequisites"));
 		prereqs.add(prereq);
 	}

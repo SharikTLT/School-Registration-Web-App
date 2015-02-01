@@ -67,6 +67,9 @@ public class Section extends Entity {
 	
 	//TODO Check if some logic can be pushed down to Subject
 	boolean hasAllPrerequisitesIn(Collection<Enrollment> prevEnrollments) {
+		if (subject.getPrerequisites().isEmpty()) {
+			return true;
+		}
 		Collection<Subject> prerequisitesRequired = getPrerequisites();
 		Collection<Subject> prerequisitesTaken = new HashSet<>();
 		for (Enrollment prevEnrollment : prevEnrollments) {

@@ -8,7 +8,7 @@ public class MockEnrollmentDao extends EnrollmentDao {
 	
 	@Override
 	public Enrollment findLatestBy(Student student) {
-		return new Enrollment(777, student, "2014 1st"); 
+		return new Enrollment(4, student, "2014 1st"); 
 	}
 
 	public void save(Enrollment enrollment) {
