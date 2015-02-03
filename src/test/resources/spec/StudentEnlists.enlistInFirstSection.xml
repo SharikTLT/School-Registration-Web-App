@@ -1,0 +1,9 @@
+<!DOCTYPE dataset SYSTEM "datasets.dtd">
+<dataset>
+	<students pk="1" student_number="1" />
+	<terms term="2014 1st" />
+	<enrollments pk="4" enrollment_number="4" fk_students="1" term="2014 1st" />
+	<faculty pk="0" faculty_number="0" />
+	<subjects pk="6" subject_id="COM1" />
+	<sections pk="2" section_number="BBB222" fk_subject="6" term="2014 1st" fk_faculty="0" schedule="TBA" />
+</dataset>

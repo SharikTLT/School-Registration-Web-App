@@ -1,19 +1,57 @@
 <html xmlns:concordion="http://www.concordion.org/2007/concordion">
 <head>
 <title>Student Enlists in Sections</title>
+<link rel="stylesheet" type="text/css" href="concordion.css" />
 </head>
 <body>
-	<h2>Student Enlists in First Section</h2>
-	<p>
-		When student with student number "<span concordion:set="#studentNumber">1</span>", who has not yet enlisted in any
-		sections, enlists in section with section ID "<span concordion:set="#sectionId">BBB222</span>", the system will return
-		the following successfully enlisted sections:
-	<table concordion:verifyRows="#section : enlistAndCheckIfSaved(#studentNumber, #sectionId)">
-		<tr><th concordion:assertEquals="#section">Succesfully Enlisted Sections</th></tr>
-		<tr><td>BBB222 {COM1 TBA}</td>	</tr>
-	</table>
-	.
-	</p>
+	<h1>Story 1: Student Enlists in Sections</h1>
+	<p>A student enlists in sections in order to enroll for a semester. Enlistment in sections are successful as long
+		as there are no issues with schedule conflicts or prerequisites.</p>
+	<p>The system should not allow the student to enlist in a section if that section has prerequisites that the
+		student has not taken in a previous term</p>
+	<p>The system should not allow the student to enlist in a section if the schedule of that section is in conflict
+		with any of the sections that the student has already enlisted in for that term.</p>
 
+	<h2>Success Scenarios</h2>
+	<h3>Test 1: Student successfully enlists in first section.</h3>
+	<p>
+		A student with student number "<span concordion:set="#studentNumber">1</span>", has not yet enlisted in any sections.
+		When the student enlists in section with section ID "<span concordion:set="#sectionId">BBB222</span>", the system will
+		indicate that the system has successfully enlisted in section 
+		<span concordion:assertEquals="enlistInFirstSection(#studentNumber, #sectionId)">BBB222 {COM1 TBA}</span> 
+		</p>
+
+	<h3>Test 2: Student successfully enlists in second section.</h3>
+	<p>
+		A student with student number "<span concordion:set="#studentNumber">1</span>" is already enlisted in section
+		<span concordion:set="#sectionIdCurrent">ZZZ000</span> with schedule <span concordion:set="#scheduleCurrent">TF 4pm - 5:30pm</span>.
+		The student then tries to enlist in Section "<span concordion:set="#sectionIdNew">CCC333</span>", with schedule <span concordion:set="#scheduleNew">MTH 8:30am - 10am</span>
+		and no prerequisites. The enlistment in the second section should be successful, and the system will indicate that section 
+		<span concordion:assertEquals="enlistSuccessfullyInSecondSection(#studentNumber, #sectionIdCurrent, #scheduleCurrent, #sectionIdNew, #scheduleNew)">
+		CCC333 {CS11 MTH 8:30am - 10am}</span> was successfully enlisted.
+	</p>
+	
+	<h2>Extension Scenarios</h2>
+	
+	<!-- Using MultiValueResult. -->
+	<h3>Test 3: Student Attempts to Enlist in Section Without Having Taken Prerequisites</h3>
+	<p>
+		A student with student number "<span concordion:set="#studentNumber">1</span>" attempts to enlist in section <span concordion:set="#sectionId">AAA111</span>
+		of which the subject is Math 53. The prerequisite of Math 53 is Math 11, but the student has not yet taken Math 11.
+		<span concordion:execute="#result = missingPrereq(#studentNumber, #sectionId)"></span>
+		The system will fail to enlist the student in section <span  concordion:assertEquals="#result.section">AAA111 {MATH53 MTH 10am - 11:30am}</span> 
+		with the message "<span concordion:assertEquals="#result.message">Missing prerequisite/s.</span>"</p>
+	
+	<h3>Test 4: Student Attempts to Enlist in Section with Schedule Conflict</h3>
+	<p>
+		A student with student number "<span concordion:set="#studentNumber">1</span>" is already enlisted in section
+		"ZZZ000", which has a schedule of "TF 4pm - 5:30pm". The student then tries to enlist in Section "<span
+			concordion:set="#sectionId">DDD444</span>", but it "TF 4pm - 5:30pm". The system will fail to enlist the student in
+		section DDD444, with an explanation that there was a schedule conflict.</p>
+		<table>
+		<tr><th concordion:execute="#result = scheduleConflict(#studentNumber, #sectionId)">Unsuccessful Enlistments</th><th>Reason</th></tr>
+		<tr><td concordion:assertEquals="#result.section">DDD444 {PHILO1 TF 4pm - 5:30pm}</td><td concordion:assertEquals="#result.message">Conflict with sections already enlisted.</td></tr>
+		</table>	
+	
 </body>
 </html>

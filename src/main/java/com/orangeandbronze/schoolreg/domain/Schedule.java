@@ -1,5 +1,7 @@
 package com.orangeandbronze.schoolreg.domain;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Schedule {
 
 	public static final Schedule TBA = new Schedule(null, null) {
@@ -16,6 +18,17 @@ public class Schedule {
 	public Schedule(Days days, Period period) {
 		this.days = days;
 		this.period = period;
+	}
+
+	public Schedule(String readableString) {
+		if ("TBA".equalsIgnoreCase(readableString)) {
+			this.days = null;
+			this.period = null;
+		} else {
+			String start = StringUtils.substringBefore(readableString, " ");
+			this.days = Days.valueOf(start);
+			this.period = Period.valueOfReadableString(StringUtils.substringAfter(readableString, " "));
+		}
 	}
 
 	public Days getDays() {
@@ -53,7 +66,11 @@ public class Schedule {
 
 	@Override
 	public String toString() {
-		return days + " " + period;
+		if (days == null && period == null) {
+			return "TBA";
+		} else {
+			return days + " " + period;
+		}
 	}
 
 }

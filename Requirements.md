@@ -59,7 +59,7 @@
  2. System calculates tuition fee.
  
 ##Business Rules:
- * Standard tuition fees are as follows:
+ * Standard tuition fees are as follows:    
 	 * Undergraduate subjects are P2,000 per section.
 	 * Graduate subjects are P4,000 per section.
 	 * Miscellaneous fees are P2,000 flat rate.
