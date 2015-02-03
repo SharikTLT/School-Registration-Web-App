@@ -60,9 +60,9 @@
  
 ##Business Rules:
  * Standard tuition fees are as follows:    
-	 * Undergraduate subjects are P2,000 per section.
-	 * Graduate subjects are P4,000 per section.
-	 * Miscellaneous fees are P2,000 flat rate.
+	 * Undergraduate subjects are ₱1,000 per unit.
+	 * Graduate subjects are ₱1,500 per section.
+	 * Miscellaneous fees are ₱2,000 flat rate.
  * Scholarship
 	 * Some students may be on scholarship, either Half-Scholar or Full-Scholar
 	 * Half-Scholars pay only 50% of subject fees but pay full on miscellaneous fees.

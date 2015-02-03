@@ -1,5 +1,6 @@
 package spec;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -8,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -64,7 +66,7 @@ public class StudentEnlists {
 		StudentDao studentDao = mock(StudentDao.class);
 		when(studentDao.findById(studentNumber)).thenReturn(student);
 		SectionDao sectionDao = mock(SectionDao.class);
-		when(sectionDao.findById("CCC333")).thenReturn(ccc333);
+//		when(sectionDao.findById("CCC333")).thenReturn(ccc333);		// uncomment this to make this test pass
 		EnrollmentDao enrollmentDao = mock(EnrollmentDao.class);
 		when(enrollmentDao.findLatestBy(student)).thenReturn(currentEnrollment);
 
@@ -121,6 +123,53 @@ public class StudentEnlists {
 
 		return new MultiValueResult().with("section", section).with("message", failures.get(section));
 	}	
+	
+	public MultiValueResult variousCombinations(int studentNumber, String sectionIdCurrent, String sectionIdNew) {
+		
+		String[] sectionNumbers = {"AAA111", "BBB222", "CCC333", "DDD444", "EEE555"};
+		
+		/* domain model */
+		Student student = new Student(studentNumber);		
+		final Section alreadyEnlisted = new Section("ZZZ000", new Subject("CHEM11"), "2014 1st", new Schedule(Days.TF, Period.PM4));
+		final Enrollment currentEnrollment = new Enrollment(143, student,  "2014 1st", new HashSet<Section>() {{ add(alreadyEnlisted); }});
+		final Section ccc333 = new Section(sectionNumbers[2], new Subject("CS11"), "2014 1st", new Schedule(Days.TF, Period.PM4));	// to make test pass, make schedule "MTH 8:30am - 10am"
+		final Section ddd444 = new Section(sectionNumbers[3], new Subject("PHILO1"), "2014 1st", new Schedule(Days.TF, Period.PM4));
+		
+		final Subject math11 = new Subject("MATH11");
+		final Subject math14 = new Subject("MATH14");
+		final Set<Subject> prerequisitesToMath53 = new HashSet<Subject>() {{ add(math11); add(math14); }};
+		final Subject math53 = new Subject("MATH53", prerequisitesToMath53);
+		final Section aaa111 = new Section(sectionNumbers[0], math53, "2014 1st", new Schedule(Days.MTH, Period.AM10));
+		
+		/* Mock the daos */
+		StudentDao studentDao = mock(StudentDao.class);
+		when(studentDao.findById(studentNumber)).thenReturn(student);
+		SectionDao sectionDao = mock(SectionDao.class);
+		when(sectionDao.findById(sectionNumbers[0])).thenReturn(aaa111);
+		when(sectionDao.findById(sectionNumbers[2])).thenReturn(ccc333);
+		when(sectionDao.findById(sectionNumbers[3])).thenReturn(ddd444);
+		EnrollmentDao enrollmentDao = mock(EnrollmentDao.class);
+		when(enrollmentDao.findLatestBy(student)).thenReturn(currentEnrollment);
+		
+		EnlistService service = new EnlistService();
+		service.setStudentDao(studentDao);
+		service.setSectionDao(sectionDao);
+		service.setEnrollmentDao(enrollmentDao);
+		
+		EnlistmentResult result = service.enlistSections(studentNumber, sectionIdNew);
+		MultiValueResult resultMap = new MultiValueResult();
+		
+		if (!result.getSuccessfullyEnlisted().isEmpty()) {
+			resultMap.with("result", "Pass");
+			resultMap.with("reason", "N/A");
+		} else {
+			Map.Entry<Section, String> entry = result.getFailedToEnlist().entrySet().iterator().next();
+			resultMap.with("result", "Fail");
+			resultMap.with("reason", entry.getValue());
+		}
+
+		return resultMap;
+	}
 	
 	private void setupDb(String datasetFilename) throws SQLException, DatabaseUnitException, DataSetException {
 		Connection jdbcConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/school_registration?sessionVariables=FOREIGN_KEY_CHECKS=0",

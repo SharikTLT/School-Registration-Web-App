@@ -12,7 +12,7 @@
 	<p>The system should not allow the student to enlist in a section if the schedule of that section is in conflict
 		with any of the sections that the student has already enlisted in for that term.</p>
 
-	<h2>Success Scenarios</h2>
+	<h2>Main Success Scenarios</h2>
 	<h3>Test 1: Student successfully enlists in first section.</h3>
 	<p>
 		A student with student number "<span concordion:set="#studentNumber">1</span>", has not yet enlisted in any sections.
@@ -37,7 +37,7 @@
 	<h3>Test 3: Student Attempts to Enlist in Section Without Having Taken Prerequisites</h3>
 	<p>
 		A student with student number "<span concordion:set="#studentNumber">1</span>" attempts to enlist in section <span concordion:set="#sectionId">AAA111</span>
-		of which the subject is Math 53. The prerequisite of Math 53 is Math 11, but the student has not yet taken Math 11.
+		of which the subject is Math 53. The prerequisite of Math 53 is Math 11 and Math 14, but the student has taken neither.
 		<span concordion:execute="#result = missingPrereq(#studentNumber, #sectionId)"></span>
 		The system will fail to enlist the student in section <span  concordion:assertEquals="#result.section">AAA111 {MATH53 MTH 10am - 11:30am}</span> 
 		with the message "<span concordion:assertEquals="#result.message">Missing prerequisite/s.</span>"</p>
@@ -53,5 +53,15 @@
 		<tr><td concordion:assertEquals="#result.section">DDD444 {PHILO1 TF 4pm - 5:30pm}</td><td concordion:assertEquals="#result.message">Conflict with sections already enlisted.</td></tr>
 		</table>	
 	
+	<h3>Test 5: Combination of Tests</h3>
+	<p>A student with student number "<span concordion:set="#studentNumber">1</span>" is already enlisted in section
+		<span concordion:set="#sectionIdCurrent">ZZZ000</span> with schedule <span concordion:set="#scheduleCurrent">TF 4pm - 5:30pm</span>. 
+		He then tries to enlist in the following sections:</p>
+		<table concordion:execute="#result = variousCombinations(#studentNumber, #sectionIdCurrent, #sectionIdNew)">
+		<tr><th concordion:set="#sectionIdNew">Section</th><th>Subject</th><th>Prerequisites</th><th>Schedule</th><th concordion:assertEquals="#result.result">Result</th><th concordion:assertEquals="#result.reason">Reason</th></tr>
+		<tr><td>CCC333</td><td>CS11</td><td>None</td><td>MTH 8:30am - 10am</td><td>Pass</td><td>N/A</td></tr>
+		<tr><td>AAA111</td><td>MATH53</td><td>MATH11, MATH14</td><td>MTH 10am - 11:30am</td><td>Fail</td><td>Missing prerequisite/s.</td></tr>
+		<tr><td>DDD444</td><td>PHILO1</td><td>None</td><td>4pm - 5:30pm</td><td>Fail</td><td>Conflict with sections already enlisted.</td></tr>
+		</table>
 </body>
 </html>
