@@ -1,7 +1,7 @@
 Simple Java Web Machine Problem
 ===============================
 
-A partially-implemented Java web applicaton, meant to be finished over the course of a semester as a machine problem, as part of a course on enterprise development or software engineering. The objectives of this machine problem is to expose the student to Object-Oriented Design, Test-Driven Development, GoF and Enterprise Design Patterns, Servlets, JSP, JSTL and JDBC. **[The use cases and class diagram can be found here.](Requirements.md)**
+A partially-implemented Java web applicaton, meant to be finished over the course of a semester as a machine problem, as part of a course on enterprise development or software engineering. The objectives of this machine problem is to expose the student to Object-Oriented Design, Test-Driven Development, GoF and Enterprise Design Patterns, Servlets, JSP, JSTL & JDBC. **[The use cases and class diagram can be found here.](Requirements.md)**
 
 ## Look Ma, No Interfaces!
 
